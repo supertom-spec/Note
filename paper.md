@@ -1,0 +1,39 @@
+## SP2019
+
+https://www.ieee-security.org/TC/SP2020/program-papers.html
+
+
+
+## Eurocrypt 2019 
+
+### 最佳论文
+Quantum Lightning Never Strikes the Same State Twice
+作者：Mark Zhandry
+论文简介： 来自普林斯顿大学的 Mark Zhandry 研究了量子闪电和量子货币，做了显著的成果，包括：
+（1）提出了一系列可实践的应用，包括带可证明熵的随机字符串生成以及无需区块链的密码货币；
+（2）给出了关于量子货币和量子闪电的「二选一」(Either/OR) 关系结论，即要么数字签名 / 哈希 / 承诺方案满足非常强的安全性，要么可以根据这些密码学原语构造量子货币或者量子闪电方案；
+（3）通过 STOC’12 上 Aaronson 和 Christiano 的量子货币方案与抗量子攻击的不可区分混淆的安全性 (indistinguishability obfuscation) 相结合，证明了可以构造出一个安全的量子货币方案；
+（4）提出了一个可靠的量子闪电构造，并且在基于二度哈希算法的抗多碰撞性的安全模型下给出了安全性证明。这个构造方案也是基于前述哈希方案的二选一关系结论，并产生了第一个在标准模型下的构造设计，即非坍缩 (non-collapsing) 的抗碰撞哈希算法。
+
+### 最佳青年学者论文
+Efficient Verifiable Delay Functions
+作者：Benjamin Wesolowski
+论文简介： 来自洛桑联邦理工学院和荷兰国家数学与计算机科学研究中心的 Benjamin Wesolowski 提出了一个高效的可验证延迟函数 (Verifiable Delay Function, VDF)。VDF 是一种易于验证、但是计算过程必须经过一定步骤且无法利用并行计算来加速优化的函数；VDF 在分布式系统中有很多应用，例如可信随机数生成。作者构造了一种带陷门 (trapdoor) 的 VDF。获知陷门的参与者可以很容易计算 VDF。通过巧妙的设计，构造出了一种 VDF 方案可以将陷门完全隐藏，即使是该执行 VDF 方案初始化过程的参与者也无法获知陷门信息。作者主要利用阶未知的群构造 VDF 方案，包括 RSA 群和 imaginary quadratic field(虚二次域)；方案中 VDF 函数的输出长度非常短（计算结果和正确性证明均是一个群元素），且正确性证明的验证非常高效。
+
+## CRYPTO 2019
+### 最佳论文
+Cryptanalysis of OCB2 : Attacks on Authenticity and Confidentiality
+作者：Akiko Inoue, Tetsu Iwata, Kazuhiko Minematsu, Bertram Poettering
+论文简介：这是本次会议最佳论文，来自一个日本的团队。他们成功地破解了认证加密（Authenticated Encryption）的 OCB2 模式。起初他们只是发现了 OCB2 相关的某个证明里的一个漏洞，本想将其修复，然而窥一斑而知全豹，从这点出发，该团队构造出了对 OCB2 模式非常彻底的攻击方案，攻破了 OCB2 的「真实性」（authenticity）和「保密性」（confidentiality）。值得注意的是，OCB2 已在 2009 年被纳入 ISO 国际标准，由于此论文的研究成果，ISO 正在执行移除此项标准的流程手续。
+
+### 相关论文
+Scalable Zero Knowledge with no Trusted Setup
+作者：Eli Ben-Sasson, Iddo Bentov, Yinon Horesh, Michael Riabzev
+论文简介：自上世纪 90 年代零知识证明被提出以来，构造零知识参数都依赖于称为「概率检验证明」（Probabilistically Checkable Proofs，PCPs）的技术。直到现在，这些早期的构造方案均未被实现，其原因是因为证明过程所需时间太长。为了解决此问题，今年来也相继出现一些研究成果，但仍未寻找到最佳的解决方案。来自以色列的密码学研究员 Eli Ben-Sasson 等人提出了一种新型的「交互式预言机证明」（interactive oracle proofs，IOPs）系统——zk-STIK，并在论文中给出了形式化的定义。论文成果表明，该构造方案渐进地改进了现有方案中的证明过程以及验证过程的计算复杂度，将这两个过程的计算复杂度均降低了 poly(log(T)) 倍（其中 T 为计算的大小）。同时，该研究团队也给出了此系统的实现库 libSTARK，并已开源。相比于先前的部分零知识证明实现的复杂计算度，其证明生成执行效率提高了 10 倍，验证所需时间降低了 7-40 倍，并且通信复杂度也降低了 3-20 倍。
+
+## CCS 2019
+
+### 最佳论文
+Where Does It Go? Refining Indirect-Call Targets with Multi-Layer Type Analysis
+作者：KangJie Liu，Hong Hu
+论文简介：来自明尼苏达大学的 KangJie Liu 和来自佐治亚理工学院的 Hong Hu 两位华人学者提出的针对系统软件中的间接调用 (target-undecidable indirect calls) 识别和分析的全新理论和方法，获得了本届大会的最佳论文奖。传统的对间接调用的识别方法基于类型分析，存在较高的假阳性概率。论文中提出了一种多层类型分析 (Multi-Layer Type Analysis, MLTA) 技术，可以有效地在 C/C++程序中识别间接调用的目标。作者通过基于 LLVM 实现了 MTLA 技术，在 Linux 内核、FreeBSD 内核和 Firefox 浏览器内核中进行了相应测试，评估后发现识别率是传统方法的 1.86-1.98 倍，同时通过该项实验，作者进一步发现了 Linux 内核中潜在的 35 个语义漏洞。

@@ -1,0 +1,74 @@
+* Introduction
+** Godel's Incompleteness Theorem
+- 蕴含皮亚诺算术公理的一致系统是不完备的
+- 对任意能表示自然数的系统，一定有定理不能被证明
+** Rice's Theorem
+- Any non-trivial property about the language recognized by a Turing machine
+  (recursively enumerable) is undecidable.
+- non-trivial property: at least one Turing machine has the property, and at
+  least one hasn't.
+- http://kilby.stanford.edu/%7Ervg/154/handouts/Rice.html
+- https://blog.csdn.net/baimafujinji/article/details/50179715
+- https://mathworld.wolfram.com/RicesTheorem.html
+- 给定一个非平凡性质 P，一定存在一个程序 ok_prog 满足 P
+- 假设存在检测该性质的程序 P_holds
+- 则可以编写函数来检测程序 q 是否能停机，矛盾！
+  #+begin_src C
+Bool halt(Program q) {
+    void evil() {
+        Output v = ok_prog();
+        q();
+        return v;
+    }
+    return P_holds(evil);
+}
+  #+end_src
+** soundness, completeness, soundiness
+** 求近似解的基本方法
+*** abstraction
+*** search
+- 设与原性质有关的变量 a+b*c
+- 以某种顺序遍历 a, b, c
+- 检查 a>0 && b>0 && c>0 -> a+b*c>0
+- 如果不成立，则原性质为假
+- 如果遍历完，则原性质为真
+- 如果超时，则答案为不知道
+- 优化： 1. 启发式搜索 2. 利用运算符性质
+
+* Data Flow
+** 单调函数
+- 将要分析的性质抽象为带有偏序的半格（对于控制流交汇运算 ⊓ ）
+- 控制流交汇处要分析的性质应该具有单调性
+- 一般取 f(S) = (S-KILL) ∪ GEN
+** 分析框架
+- 一个控制流图 (V, E)
+- 要分析的性质抽象为一个有限高度的半格 (S, ⊓)
+- 一个 entry ∈ V 的初值 I ∈ S
+- 对任意 v ∈ (V - entry)，结点转化函数 f_v(pred(v)) 有定义
+** 实现算法
+#+begin_example
+DATA_entry = I
+for v in (V - entry):
+    DATA_v = T
+ToVisit = V - entry
+while ToVisit.size > 0:
+    v = sample(ToVisit)
+    ToVisit -= v
+    MEET_v = ⊓( [DATA(w) for w in pred(v)] )
+    if DATA_v != f_v(MEET_v):
+        ToVisit ∪= succ(v)
+    DATA_v = f_v(MEET_v)
+#+end_example
+
+** 小结
+*** 构造待分析性质的半格
+- 将要分析的性质抽象
+- 设计性质的交汇运算，形成半格
+*** 构造从控制流图语句 V 到半格 S 的映射
+- DATA_entry = I
+- for v in V: DATA(v) 有定义
+*** 构造交汇处的转化函数
+- 由于半格性质，函数需要单调
+- 通常定义为 f(D) = (D-KILL) ∪ GEN
+
+* static single assignment

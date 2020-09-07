@@ -1,0 +1,49 @@
+# Windows Notes
+
+## Windows 汇编
+
+### 汇编语言 64 位 Windows API 使用简述
+
+任何对 Windows API 的 32 位调用都可以重新编写为 64 位调用。只需要记住几个关键点就可以：
+
+1. 输入与输出句柄是 64 位的。
+2. 调用系统函数前，主调程序必须保留至少 32 字节的影子空间，其方法是将堆栈指针（RSP）寄存器减去 32。这使得系统函数能利用这个空间保存 RCX、RDX、R8 和 R9 寄存器的临时副本。
+3. 调用系统函数时，RSP 需对齐 16 字节地址边界（基本上，任何十六进制地址的最低位数字都是 0）。幸运的是，Win64 API 似乎没有强制执行这条规则，而且在应用程序中对堆栈对齐进行精确控制往往是比较困难的。
+4. 系统调用返回后，主调方必须回复 RSP 的初始值，方法是加上在函数调用前减去的数值。如果是在子程序中调用 Win64 API，那么这一点非常重要，因为在执行 RET 指令时，ESP 最终须指向子程序的返回地址。
+5. 整数参数利用 64 位寄存器传递。
+6. 不允许使用 INVOKE。取而代之，前 4 个参数要按照从左到右的顺序，依次放入这 4 个寄存器：RCX、RDX、R8 和 R9。其他参数则压入运行时堆栈。
+7. 系统函数用 RAX 存放返回的 64 位整数值。
+
+ 下面的代码行演示了如何从 Irvine64 链接库中调用 64 位 GetStdHandle 函数：
+
+```asm
+.data
+STD_OUTPUT_HANDLE EQU -11
+consoleOutHandle QWORD ?
+.code
+sub rsp, 40                       ; 预留影子空间 & 对齐 RSP
+mov rex,STD_OUTPUT_HANDLE
+call GetstdHandle    -
+mov consoleOutHandle,rax
+add rsp,40
+```
+
+一旦控制台输出句柄被初始化，可以用后面的代码来演示如何调用 64 位 WriteConsoleA 函数。
+
+这里有 5 个参数：RCX（控制台句柄）、RDX（字符串指针）、R8（字符串长度）、 R9（byteWritten 变量指针），以及最后一个虚拟零参数，它位于 RSP 上面的第 5 个堆栈位置。
+
+```asm
+    WriteString proc uses rex rdx r8 r9
+        sub rsp, (5*8)            ; 为 5 个参数预留空间
+        movr cx,rdx
+        call Str_length           ; 用 EAX 返回字符串长度
+        mov rcx,consoleOutHandle
+        mov rdx, rdx              ; 字符串指针
+        mov r8, rax               ; 字符串长度
+        lea r9,bytesWritten
+        mov qword ptr [rsp + 4 * SIZEOF QWORD], 0 ; 总是 0
+        call WriteConsoleA
+        add rsp,(5*8)             ; 恢复 RSP
+        ret
+    WriteString ENDP
+```

@@ -1,0 +1,638 @@
+* 基本编程
+** Pythonic
+*** Truthiness
+#+begin_src python
+False, [], {}, "", 0, 0.0, None
+# is false, everything else is true
+#+end_src
+*** Testing for None             :is not:
+#+begin_src python :results output
+  text = "apple"
+  if text is not None:
+      print(text)
+#+end_src
+
+#+RESULTS:
+: apple
+*** Multiple tests               :in set():
+#+begin_src python :results output
+  from enum import Enum
+  class Moves(Enum): West=1; East=2; North=3; South=4;
+
+  def whichmove(m):
+      if m in { Moves.West, Moves.East, Moves.North, Moves.South }:
+          print("That's a direct move.")
+      else:
+          print("That's a diagonal move.")
+
+  whichmove(Moves.West)
+  whichmove(5)
+#+end_src
+
+#+RESULTS:
+: That's a direct move.
+: That's a diagonal move.
+
+*** String formatting            :string.format():
+#+begin_src python :results output
+  name = "Micheal"
+  age  = 43
+
+  print("Hi, I'm {1:d} years old and my name is {0:s}.".format(name, age))
+  
+  data = {'name':'Micheal', 'age':43}
+  print("Hi, I'm {age} years old and my name is {name}.".format(**data))
+  print(f"Hi, I'm {age} years old and my name is {name}.") # python3.6
+#+end_src
+
+#+RESULTS:
+: Hi, I'm 43 years old and my name is Micheal.
+: Hi, I'm 43 years old and my name is Micheal.
+: Hi, I'm 43 years old and my name is Micheal.
+
+*** Send an exit code            :sys.exit():
+*** Merging dictionaries         :**dict:
+#+begin_src python :results output
+  route = {'id': 271, }
+  query = {'id': 1, 'word': 'select'}
+  post = {'email': 'abc@123.com', 'name': 'Jeff'}
+
+  ml = {**query, **post, **route}
+  print(ml)
+#+end_src
+
+#+RESULTS:
+: {'id': 271, 'word': 'select', 'email': 'abc@123.com', 'name': 'Jeff'}
+*** Custom type iteration        :yield it:
+    yield 与类内部魔法方法 =__next__= 相同，python 中 for 循环的本质即将列表转化
+为 iter 对象后重复调用 nex() 直到 =StopIteration= Exception。
+    #+begin_src python :results output
+      class ShoppingCart:
+          def __init__(self):
+              self.items = []
+
+          def add_item(self, it):
+              self.items.append(it)
+
+          def __iter__(self):
+              for it in sorted(self.items, key=lambda i: i['price']):
+                  yield it
+
+      cart = ShoppingCart()
+      cart.add_item({'name':"guitar", 'price':799})
+      cart.add_item({'name':"cd",     'price':19})
+      cart.add_item({'name':"iPhone", 'price':699})
+
+      for item in cart:
+          print('{} for ${}'.format(item['name'], item['price']))
+    #+end_src
+
+    #+RESULTS:
+    : cd for $19
+    : iPhone for $699
+    : guitar for $799
+
+    #+begin_src python :results output
+      def fibonacci_generator():
+          current, nxt = 0, 1
+          while True:
+              current, nxt = nxt, nxt + current
+              yield current
+
+      i = 0
+      for item in fibonacci_generator():
+          i += 1
+          if i > 5: break
+          print(item, end=' ')
+    #+end_src
+
+    #+RESULTS:
+    : 1 1 2 3 5 
+    
+    #+begin_src python
+      import os
+      def get_files(folder):
+          for item in os.listdir(folder):
+              full_item = os.path.join(folder, item)
+              if os.path.isfile(full_item):
+                  yield full_item
+              elif os.path.isdir(full_item):
+                  yield from get_files(full_item)
+    #+end_src
+
+*** Filter                       :i for i in x if i:
+*** Lambda                       :lambda x:
+*** Mutable values
+#+begin_src python :results output
+  def add_items_bad(name, times=1, lst=[]):
+      for _ in range(0, times):
+          lst.append(name)
+      return lst
+
+  list_1 = add_items_bad("a", 3)   # list_1 = [a,a,a]
+  add_items_bad("b", 2, list_1)    # list_1 = [a,a,a,b,b]
+
+  list_2 = add_items_bad("n", 3)   # list_2 = [a,a,a,b,b,n,n,n]
+  id(list_1) == id(list_2)         # True
+#+end_src
+
+#+begin_src python
+  def add_items_bad(name, times=1, lst=None):
+      if lst is None:
+          lst = []
+      for _ in range(0, times):
+          lst.append(name)
+      return lst
+
+  list_1 = add_items_bad("a", 3)   # list_1 = [a,a,a]
+  add_items_bad("b", 2, list_1)    # list_1 = [a,a,a,b,b]
+
+  list_2 = add_items_bad("n", 3)   # list_2 = [n,n,n]
+  id(list_1) == id(list_2)         # False
+#+end_src
+
+*** Data hiding                  :__, _:
+    #+begin_src python :results output
+      class PetSnake:
+          def __init__(self, name, age):
+              self.__age = age
+              self.__name = name			# Double _'s mean private.
+              self._protected = True  # Single _'s mean protected.
+
+          @property
+          def name(self):
+            return self.__name
+
+          @property
+          def age(self):
+            return self.__age
+
+      py = PetSnake("Slide", 6)
+      print("She is named {} and {} years old."
+            .format(py.name, py.age))
+    #+end_src
+
+    #+RESULTS:
+    : She is named Slide and 6 years old.
+*** Numerical loop               :enumerate():
+    #+begin_src python :results output
+      data = [1, 7, 11]
+
+      for idx, val in enumerate(data):
+          print(" {} --> {}".format(idx, val)) 
+    #+end_src
+
+    #+RESULTS:
+    :  0 --> 1
+    :  1 --> 7
+    :  2 --> 11
+*** Named tuples                 :collections.namedtuple:
+#+begin_src python :results output
+  import collections
+  Measurement = collections.namedtuple(
+      'Measurement',
+      'temp, lat, long, quality')
+
+  m = Measurement(22.5, 44.234, 19.02, 'strong')
+
+  temp = m[0]
+  temp = m.temp
+  quality = m.quality
+
+  print(m)
+#+end_src
+
+#+RESULTS:
+: Measurement(temp=22.5, lat=44.234, long=19.02, quality='strong')
+
+** 环境搭建
+*** 虚拟环境和依赖
+#+begin_src shell
+  # 使用 venv 标准库 (python3):
+  python3 -m venv path
+  path/Scripts/active
+  # 使用 vittualenv 非 PyPI 标准库 (python2, python3):
+  sudo apt-get install python-pip
+  sudo pip install virtualenv
+  virtualenv -p python3 yourVenv
+  source yourVenv/bin/activate
+  deactivate
+  # 安装依赖
+  python3 -m pip install -r requirements.txt
+#+end_src
+*** 下载 wheel 包离线安装
+#+begin_src shell
+  pip freeze > requirements.txt           # 从虚拟环境中将包导出
+  pipreqs ./ --encoding=utf-8 --force     # 覆盖原有 requirements.txt
+  pip wheel -w DIR -r requirements.txt    # 下载 wheel 包，有的库没有 wheel
+  pip download -d DIR -r requirements.txt # 可以下载源码，但没有包依赖检查
+  python3 -m pip install --no-index --find-links=DIR -r requirements.txt
+#+end_src
+*** 下载指定 python 版本的 wheel 包
+#+begin_src shell
+  pip3 download
+  --no-deps
+  --platform linux_x86_64
+  --python-version 36
+  --implementation cp
+  --abi cp36m
+  -r requirements.txt -d DIR
+#+end_src
+** 常用自定义函数
+*** 调试函数
+**** 打印十六进制
+    #+begin_src python :results output
+      import string
+      def print_hex(bytes):
+          l = [int(i) for i in bytes]
+          for i in range(0, len(l), 16):
+              rest = len(l) - i if len(l) - i < 16 else 16
+              for j in range(rest):
+                  print("{:02X}".format(l[i+j]), end=' ')
+              print("   " * (16-rest) + "\t", end='')
+              for j in range(rest):
+                  print(chr(l[i+j]) if chr(l[i+j]) in string.printable[:-5] else '.', end='')
+              print("")
+
+      s = b"test\x00\x01\x02\x03"
+      print_hex(s)
+    #+end_src
+
+    #+RESULTS:
+    : 74 65 73 74 00 01 02 03                         	test....
+** 例程
+*** 尾递归
+    用 selenium 时遇到网页回退会刷新页面中元素的 guid 导致无法递归，采用尾递归。模型如下：
+#+begin_src python :results output
+  lll = {
+      'a': [1, 2, 3],
+      'b': {'ba': [4, 5], 'bb': [6, 7]},
+      'c': [8],
+      }
+
+  def get_next_dir(l, finished):
+      if isinstance(l, list):
+          return None
+      for item in l.keys():
+          if item in finished:
+              pass
+          else:
+              return item
+      return None
+
+  def down_files(l, finished=None):
+      if finished is None:
+          finished = []
+
+      if l is None:
+          return
+
+      if isinstance(l, list):
+          print("download {}".format(l))
+
+      next_dir = get_next_dir(l, finished)
+      while next_dir:
+          print("cd {}".format(next_dir))
+          down_files(l[next_dir])
+          finished.append(next_dir)
+          print("finished: {}".format(finished))
+          next_dir = get_next_dir(l, finished)
+
+  down_files(lll)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+cd a
+download [1, 2, 3]
+finished: ['a']
+cd b
+cd ba
+download [4, 5]
+finished: ['ba']
+cd bb
+download [6, 7]
+finished: ['ba', 'bb']
+finished: ['a', 'b']
+cd c
+download [8]
+finished: ['a', 'b', 'c']
+#+end_example
+
+* 设计模式
+** 全局配置类 options
+   #+begin_src python :results output
+     class Options:
+         def __init__(self, options=None, **args):
+             if len(args):
+                 self.options = args
+                 self.options.update(options or {})
+             else:
+                 self.options = options or {}
+
+         def __getattr__(self, key):
+             if key in self.options:
+                 return self.options[key]
+             else:
+                 return False
+
+         def __setitem__(self, key, value):
+             self.options[key] = value
+
+         def __contains__(self, key):
+             return key in self.options
+
+     options = Options(set1='a', set2='b')
+     if 'set1' in options:
+         print(options.set1)
+   #+end_src
+
+   #+RESULTS:
+   : a
+
+** 装饰器     decorator
+*** 计时器装饰器
+#+begin_src python 
+  def trace(func):
+      @functools.wraps(func)
+      def wrapper(*args, **kwargs):
+          start = time.clock()
+          v = func(*args, **kwargs)
+          end = time.clock()
+          print('{}, {}, {}, {}, cost: {} seconds'.format(
+                  func.__name__, args, kwargs , v, (end - start)))
+          return v
+      return wrapper
+#+end_src
+
+*** 以 wsgiref 为例
+#+begin_src python
+  def cgi-app(environ, start_response):
+      start_response('200 OK', [('Content-Type', 'text/html')])
+      return '<h1>Hello, web!</h1>'
+
+  def middleware(func):
+      " Decorator to turn a function into a wsgi middleware "
+      # This is called when parsing the "@middleware" code
+
+      def app_builder(app):
+          # This is called when doing app = cgi_wrapper(app)
+          def app_wrap(environ, start_response):
+              # This is called when a http request is being processed
+              return func(environ, start_response, app)
+          return app_wrap
+      return app_builder
+
+  @middleware
+  def cgi_wrapper_error_handler(environ, start_response, app):
+      try:
+          return app(environ, start_response)
+      except (KeyboardInterrupt, SystemExit):
+          raise
+
+      except Exception as e:
+          start_response('500 Oops', [('Content-Type', 'text/html')])
+          return '<h1>Oops!</h1>'
+
+  # 实例化一个对象，类型为 (environ, start_response) -> str 类型的函数
+  app = cgi_app
+
+  # 装饰对象，根据 middleware 定义，返回 app_builder 函数，
+  # 类型仍然为 (environ, start_response) -> str
+  app = cgi_wrapper_error_handler(app)
+
+  # 运行 app，根据 app_builder 定义，返回装饰后的 app func 进入服务器执行
+  import wsgiref.handlers
+  wsgiref.handlers.CGIHandler().run(app)
+#+end_src
+
+* 网络编程
+** select
+#+begin_src python
+import socket
+import select
+
+serv = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+serv.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+serv.bind((socket.gethostname(), 2222))
+serv.listen(5)
+
+conn, _ = serv.accept()
+while 1:
+    rlist, wlist, elist = select.select([conn], [], [], 2)
+    if [rlist, wlist, elist] == [[], [], []]:
+        print("no data in timeout\n")
+    else:
+        for sock in rlist:
+            data = sock.recv(100)
+            print(len(data))
+            if data:
+                print(data)
+            else:
+                conn.close()
+                conn, _ = serv.accept()
+conn.close()
+#+end_src
+
+** bs4
+** selenium
+*** 元素定位
+#+begin_src python
+  find_element_by_id()
+  find_element_by_name()
+  find_element_by_class_name()
+  find_element_by_tag_name()
+  find_element_by_link_text()
+  find_element_by_partial_link_text()
+  find_element_by_xpath()
+  find_element_by_css_selector()
+#+end_src
+当 element 变成 elements 就是找到所有满足的条件，返回数组。
+*** 常用操作
+**** 点击和输入
+     - =.clear()=     清除文本
+     - =.send_keys()= 模拟按键输入，可以选择本地文件
+     - =.click()=     单击元素
+**** 提交
+     在搜索框模拟回车操作
+#+begin_src python
+  search_text = driver.find_element_by_id('kw')
+  search_text.send_keys('selenium')
+  search_text.submit()
+#+end_src
+**** 其他
+     - =.size= 返回元素尺寸
+     - =.text= 获取元素文本
+     - =.get_attribute(name)= 获得属性值
+     - =.is_displayed()= 设置该元素是否用户可见
+*** 鼠标操作
+所有 ActionChains 提供的鼠标操作
+  - perform(): 执行所有 ActionChains 中存储的行为;
+  - context_click(): 右击;
+  - double_click(): 双击;
+  - drag_and_drop(): 拖动;
+  - move_to_element(): 鼠标悬停.
+#+begin_src python
+  from selenium import webdriver
+  # 引入 ActionChains 类
+  from selenium.webdriver.common.action_chains import ActionChains
+
+  driver = webdriver.Chrome()
+  driver.get("https://www.baidu.cn")
+
+  # 定位到要悬停的元素
+  above = driver.find_element_by_link_text("设置")
+  # 对定位到的元素执行鼠标悬停操作
+  ActionChains(driver).move_to_element(above).perform()
+#+end_src
+*** 键盘操作
+  - send_keys(Keys.BACK_SPACE) 删除键
+  - send_keys(Keys.SPACE) 空格键
+  - send_keys(Keys.TAB) 制表键
+  - send_keys(Keys.ESCAPE) 回退键
+  - send_keys(Keys.ENTER) 回车键
+  - send_keys(Keys.CONTROL,'a') 全选
+  - send_keys(Keys.CONTROL,'c') 复制
+  - send_keys(Keys.CONTROL,'x') 剪切
+  - send_keys(Keys.CONTROL,'v') 粘贴
+  - send_keys(Keys.F1) 键盘 F1
+*** 页面信息
+  - title = driver.title
+  - url = driver.current_url
+
+*** 等待页面加载完成
+#+begin_src python
+  from selenium import webdriver
+  from selenium.webdriver.common.by import By
+  from selenium.webdriver.support.ui import WebDriverWait
+  from selenium.webdriver.support import expected_conditions as EC
+
+  driver = webdriver.Firefox()
+  driver.get("http://www.baidu.com")
+
+  element = WebDriverWait(driver, 5, 0.5).until(
+                        EC.presence_of_element_located((By.ID, "kw"))
+                        )
+  element.send_keys('selenium')
+  driver.quit()
+#+end_src
+
+函数格式
+#+begin_src python
+  WebDriverWait(driver, timeout, poll_frequency=0.5, ignored_exceptions=None)
+  # 超时后抛出 ignored_exceptions 异常，默认抛出 NoSuchElementException
+  until(method, message='')
+  until_not(method, message='')
+#+end_src
+
+隐式等待 告诉 WebDriver 等待一定时间后再去查找元素
+#+begin_src python
+driver.implicitly_wait(10)
+#+end_src
+
+*** 在不同的窗口和框架之间移动
+#+begin_src python
+  import time
+
+  time.sleep(10)
+  windows = driver.window_handles
+
+  driver.switch_to.window("windowName")
+  driver.switch_to.frame("frameName")
+  driver.switch_to.default_content()
+#+end_src
+*** 警告框处理
+#+begin_src python
+  alert = driver.switch_to_alert().text
+  alert = driver.switch_to_alert().accept()
+  alert = driver.switch_to_alert().dismiss()
+  alert = driver.switch_to_alert().send_keys()
+#+end_src
+
+*** 下载文件
+#+begin_src python
+  profile = webdriver.FirefoxProfile()
+  profile.set_preference('browser.download.folderList', 0)
+  profile.set_preference('browser.download.manager.showWhenStarting', False)
+  profile.set_preference('browser.helperApps.neverAsk.saveToDisk', 'application/x-msdownload;application/octet-stream')
+  driver = webdriver.Firefox(firefox_profile=profile)
+#+end_src
+
+参考链接:
+  - https://www.cnblogs.com/xiaobaibailongma/p/12078159.html
+*** 下拉框选择
+#+begin_src python
+  from selenium import webdriver
+  from selenium.webdriver.support.select import Select
+  from time import sleep
+
+  driver = webdriver.Chrome()
+  driver.implicitly_wait(10)
+  driver.get('http://www.baidu.com')
+  sel = driver.find_element_by_xpath("//select[@id='nr']")
+  Select(sel).select_by_value('50')  # 显示50条
+#+end_src
+
+*** Cookie 操作
+  - =get_cookies()=
+  - =get_cookies(name)=
+  - =add_cookie(cookie_dict)=
+  - =delete_cookie(name, optionsString)= 支持的选项包括“路径”“域”
+  - =delete_all_cookies()=
+
+*** 调用 JavaScript 代码
+#+begin_src python
+js="window.scrollTo(100,450)
+driver.execute_script(js)
+#+end_src
+
+*** 窗口截图
+#+begin_src python
+driver.get_screenshot_as_file("x.png")
+#+end_src
+*** 过检测
+    - [[https://blog.jiejiss.com/Selenium%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95%E8%B8%A9%E5%9D%91%E8%AE%B0/#x00-%E6%8A%80%E6%9C%AF%E9%80%89%E5%9E%8B][ Selenium 自动化测试踩坑记]]
+
+*** 简单示例
+#+begin_src python
+  driver = webdriver.Firefox()
+  driver.get("https://login.com/")
+
+  driver.find_element_by_id("rcmloginuser").send_keys("username")
+  driver.find_element_by_id("rcmloginpwd").send_keys("password")
+  driver.find_element_by_id("rcmloginsubmit").click()
+
+  time.sleep(3)
+  driver.save_screenshot("login.png")
+
+  driver.quit()
+#+end_src
+* 用 Python 做 CTF 题
+** pwntools
+- python3: $ pip3 install git+https://github.com/arthaud/python3-pwntools.git
+- io-remote: send, sendline, sendafter, recvn, recvline, recvlines, recvuntil
+- io-process: gdb.attach, context.log_level='DEBUG', 
+- [shellcraft](http://docs.pwntools.com/en/stable/shellcraft.html)
+- io-ELF: e.address, e.symbols, e.got, e.plt
+* 用 Python 做逆向工程
+** miasm
+  - [[https://github.com/cea-sec/miasm][miasm 项目]]
+  - [[https://www.freebuf.com/articles/terminal/232540.html][使用Miasm分析Shellcode的例子]]
+  - [miasm 示例](https://github.com/cea-sec/miasm/tree/master/example)
+  - [miasm 博客](https://miasm.re/blog/)
+  - [导读1](http://www.williballenthin.com/post/2020-01-09-miasm-part-1/)
+  - [导读2](http://www.williballenthin.com/post/2020-01-12-miasm-part-2/)
+** idapython
+  - [[https://github.com/0xKira/api_palette][IDA API 补全插件]]
+  - [[https://irq5.io/2020/05/25/batch-binary-analysis-with-ida-pro-7-4-automation/][IDAPython 批量分析]]
+* Python for Fun
+** 自己输出自己
+#+begin_src python :results output
+  s='s=%r;print(s%%s)';print(s%s)
+#+end_src
+
+#+RESULTS:
+: s='s=%r;print(s%%s)';print(s%s)
+** Python burp
+http-prompt = httpie + prompt_toolkit
+

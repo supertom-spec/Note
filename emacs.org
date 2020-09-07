@@ -1,0 +1,87 @@
+* Org-mode
+** Org-Babel
+*** 代码块
+**** 基本用法
+***** inline block
+    ,src_{language}[{header arguments}]{{body}}
+***** source code block
+    使用 =C-c C-,= 可以自动插入模板
+    ,#+NAME: {name}
+    ,#+BEGIN_SRC {language} {switches} {header arguments}
+        {body}
+    ,#+END_SRC
+**** 可选参数解释
+     - =#+NAME: {name}= - 当启用时可被 =#+CALL: {name}()= 调用
+       ( 见 [[https://orgmode.org/manual/The-Spreadsheet.html#The-Spreadsheet][The Spreadsheet]] )
+     - ={switches}= - 控制代码的执行、导出和样式，包括 -n 行号，-r 去除标签
+     - ={header arguments}= - 见下一节
+**** 代码块头参数 ( header arguments )
+     默认参数：
+     - :session =} "none"
+     - :results =} "replace" ("silent", "raw", "code", "output")
+     - :exports =} "code"    ("results", "both")
+     - :cache   =} "no"      ("yes")
+     - :noweb   =} "no"
+
+     其他参数：
+     - :var       =} 向代码中传入参数
+     - :warp      =} 数据格式化
+     - :post      =} 结果的预处理
+
+     通过 [[https://orgmode.org/manual/Property-Syntax.html#Property-Syntax][PROPERTY]] 设置当前文档或子树的默认头参数：
+    ,#+PROPERTY: header-args:R :session *R*
+    ,#+PROPERTY: header-args   :results silent
+
+***** 数据格式化 (:warp)
+****** JSON 格式化
+     #+begin_src sh :results code :wrap SRC js :exports both
+       curl http://httpbin.org/get
+     #+end_src
+
+     #+RESULTS:
+     #+begin_SRC js
+     {
+       "args": {}, 
+       "headers": {
+         "Accept": "*/*", 
+         "Host": "httpbin.org", 
+         "User-Agent": "curl/7.68.0", 
+         "X-Amzn-Trace-Id": "Root=1-5f1feb41-d9e03f0df1a69efa256f52e6"
+       }, 
+       "origin": "59.174.164.137", 
+       "url": "http://httpbin.org/get"
+     }
+     #+end_SRC
+
+****** 其他格式化
+     #+begin_src sh :results raw :wrap QUOTE :exports both
+       date
+     #+end_src
+
+     #+RESULTS:
+     #+begin_QUOTE
+     Tue 28 Jul 2020 05:09:55 PM CST
+     #+end_QUOTE
+
+***** 结果的预处理 (:post)
+ #+NAME: img_wrap
+ #+BEGIN_SRC python :var img_path="" :results output
+   img_path=img_path.replace('[[file:..', '').replace(']]', '')
+   print('<img src="'+img_path+'" />')
+ #+END_SRC
+
+ #+HEADER: :file ../images/devOps/just-try-post.png :exports both
+ #+BEGIN_SRC plantuml :mkdirp yes :post img_wrap(img_path=*this*) :wrap EXPORT html
+   @startuml
+   cli -} serv:  auth req
+   serv --} cli: auth res
+   @enduml
+ #+END_SRC
+
+*** 支持的编程语言
+**** C
+**** Python
+*** 导出
+**** LaTeX
+*** 进阶
+  https://brantou.github.io/2017/10/31/literate-devOps/
