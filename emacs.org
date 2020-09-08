@@ -17,16 +17,16 @@
      - ={header arguments}= - 见下一节
 **** 代码块头参数 ( header arguments )
      默认参数：
-     - :session =} "none"
-     - :results =} "replace" ("silent", "raw", "code", "output")
-     - :exports =} "code"    ("results", "both")
-     - :cache   =} "no"      ("yes")
-     - :noweb   =} "no"
+     - :session => "none"
+     - :results => "replace" ("silent", "raw", "code", "output")
+     - :exports => "code"    ("results", "both")
+     - :cache   => "no"      ("yes")
+     - :noweb   => "no"
 
      其他参数：
-     - :var       =} 向代码中传入参数
-     - :warp      =} 数据格式化
-     - :post      =} 结果的预处理
+     - :var       => 向代码中传入参数
+     - :warp      => 数据格式化
+     - :post      => 结果的预处理
 
      通过 [[https://orgmode.org/manual/Property-Syntax.html#Property-Syntax][PROPERTY]] 设置当前文档或子树的默认头参数：
     ,#+PROPERTY: header-args:R :session *R*
@@ -64,19 +64,19 @@
      #+end_QUOTE
 
 ***** 结果的预处理 (:post)
- #+NAME: img_wrap
- #+BEGIN_SRC python :var img_path="" :results output
+#+NAME: img_wrap
+#+BEGIN_SRC python :var img_path="" :results output
    img_path=img_path.replace('[[file:..', '').replace(']]', '')
    print('<img src="'+img_path+'" />')
- #+END_SRC
+#+END_SRC
 
  #+HEADER: :file ../images/devOps/just-try-post.png :exports both
- #+BEGIN_SRC plantuml :mkdirp yes :post img_wrap(img_path=*this*) :wrap EXPORT html
+#+BEGIN_SRC plantuml :mkdirp yes :post img_wrap(img_path=*this*) :wrap EXPORT html
    @startuml
    cli -} serv:  auth req
    serv --} cli: auth res
    @enduml
- #+END_SRC
+#+END_SRC
 
 *** 支持的编程语言
 **** C

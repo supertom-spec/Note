@@ -47,3 +47,23 @@ add rsp,40
         ret
     WriteString ENDP
 ```
+
+## WSL
+
+修改配色：[ColorTool](https://links.jianshu.com/go?to=https%3A%2F%2Fgithub.com%2Fmicrosoft%2Fterminal%2Freleases%2Ftag%2F1708.14008) 
+
+将 CapsLock 设置为 Ctrl
+
+```install
+Windows Registry Editor Version 5.00
+[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout]
+"Scancode Map"=hex:00,00,00,00,00,00,00,00,02,00,00,00,1D,00,3A,00,00,00,00,00
+```
+
+```uninstall
+Windows Registry Editor Version 5.00
+[HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Keyboard Layout]
+"Scancode Map"=-
+```
+
+## 
