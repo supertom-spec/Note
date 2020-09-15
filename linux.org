@@ -248,3 +248,205 @@ c---------  1 root root 5, 2 Sep  7 06:11 ptmx
 亦使用 pts (通过 getty). 例如: telnet->pts->ptms->getty.
 
 当 /dev/fd* (Framebuffer) 设备没有启用时, 可以通过 /dev/tty0 访问显卡.
+
+* 综合利用
+** kernel rootkit
+rootkit 的分类:
+- User-mode rootkits: typically, LD_PRELOAD-based
+- Kernel-mode rootkits: typically, LKM-based
+- Firmware-based (FW) rootkits (UEFI)
+- Hypervisor (HV) rootkits
+- Hybrid rootkits
+*** Base techniques
+**** Symbol
+- 符号可以是导出的或者非导出的
+- 公共 kernel API 仅包含导出的符号( 使用 EXPORT_SYMBOL() 宏 )
+- 私有 kernel API 包含公共 API 和其他私有符号
+找到 private kernel API:
+- Read and parse /proc/kallsyms file
+- Use ==kallsyms_lookup_name()==
+- Use ==kallsyms_on_each_symbols()==
+- Use signatures and by disassembling the kernel's code
+- System.map ( mostly useless nowadays because of ASLR )
+**** writing to the read-only memory
+Write Protect (bit 16 of CR0) - When set, inhibits supervisor-level procdures
+from writing into read-only pages; when clear, allows supervisor-levprocedures
+to write into read-only pages (regardless of the U/S bit settinsee Section 4.1.3
+and Section 4.6). This flag facilitates implementation of tcopy-on-write method
+of creating a new process (forking) used by operatisystems such as UNIX.
+***** native pax
+#+begin_src C
+static inline unsigned long native_pax_open_kernel(void)
+{
+    unsigned long cr0;
+
+    preempt_disable();
+    barrier();
+    cr0 = read_cr0() ^ X86_CR0_WP;
+    BUG_ON(unlikely(cr0 & X86_CR0_WP));
+    write_cr0(cr0);
+    return cr0 ^ X86_CR0_WP;
+}
+
+static inline unsigned long native_pax_close_kernel(void)
+{
+    unsigned long cr0;
+
+    cr0 = read_cr0() ^ X86_CR0_WP;
+    BUG_ON(unlikely(!(cr0 & X86_CR0_WP)));
+    write_cr0(cr0);
+    barrier();
+    preempt_enable_no_resched();
+    return cr0 ^ X86_CR0_WP;
+}
+
+native_pax_open_kernel();
+sys_call_table[__NR_open] = my_sys_open;
+// ... system behaviour code
+native_pax_close_kernel();
+#+end_src
+
+汇编代码
+#+begin_src asm
+.macro disable_wp
+    cli
+    mov eax,cr0
+    and eax,0xfffeffff
+    mov cr0,eax
+.endm
+
+.macro enable_wp
+    mov eax,cr0
+    or eax,0x10000
+    mov cr0,eax
+    sti
+.endm
+#+end_src
+
+***** vmap
+使用 vmap 创建一个可写的映射到只读的区域
+- 对于区域中的每个页, 将其翻译为 struct page 的虚拟地址
+  kernel 的使用 =virt_to_page()=, modules 的使用 vmalloc_to_page().
+- 使用 =vmap()= 将这些页映射为虚拟的连续空间 using page protection required
+  (=PAGE_KERNEL=).
+- 使用 =vunmap()= 恢复映射
+#+begin_src C
+void *map_writable (void*addr , size_t  len) {
+  void *vaddr = NULL;
+  void *paddr = (void*)(addr & PAGE_MASK);
+  structpage *pages[ ... ];
+  for (int i = 0; i < ARRAY_SIZE(pages); i++) {
+    if (__module_address ((ulong)paddr))
+      pages[i] = vmalloc_to_page(paddr);
+    else pages[i] = virt_to_page(paddr);
+    if (!pages[i])
+      return NULL;
+    paddr += PAGE_SIZE;
+  }
+
+  vaddr = vmap(pages, ARRAY_SIZE(pages), VM_MAP, PAGE_KERNEL);
+  return vaddr? vaddr + offset_in_page(addr) : NULL;
+}
+
+size_t slen = __NR_syscall_max * sizeof(sys_call_ptr_t);
+sys_call_ptr_t *sptr = map_writable(sys_call_table, slen);
+sptr[__NR_open] = my_sys_open;
+// ....
+vunmap(sptr);
+#+end_src
+**** hooking in the kernel
+- hooking system calls by replacing pointers in =sys_call_table[]=
+  and =ia32_sys_call_table[]=.
+- hooking virtual methods calls (vtable-like) by replacing pointers in tables
+  like =struct file_operations=.
+- hooking of kernel symbols by patching their code.
+- registering any kind of callbacks and notifiers
+  (e.g. =register_module_notifier()=).
+- registering LSM security callbacks (hooks).
+
+[[https://github.com/milabs/khook][KHOOK]] - 自动化的内核函数 hooking 引擎:
+- based on overwriting target function prologue with =JMP xxx=.
+- uses in-kernel length disassembler engine (LDE) to get the number of
+  instructions to save before overwriting.
+- 被 hook 的函数可以调用其原始函数.
+- maintain a use-counter for each hooked function.
+  This prevents unhooking of symbols which are in use.
+
+提供了方便的 API:
+- =KHOOK(xxx)= macro: declares a hook of function =xxx= (已在其他地方声明)
+- =KHOOK_EXT(xxx, typeof(arg0), typeof(arg1), ...)= macro: declares a hook of
+  function =xxx= (不用在其他地方声明)
+- =KHOOK_GET(xxx)=, =KHOOK_PUT(xxx)= macros: manage symbol's hook use-counter.
+- =KHOOK_ORIGIN(xxx, args...)=: calls to the original function.
+- =khook_init()=: causes all decared hooks to be installed.
+- =khook_cleanup()=:
+
+#+begin_src C
+#include "engine/engine.h"
+#include "engine/engine.c"
+
+// add the options to the linker
+// ldflags-y += -T$(src)/engine/engine.lds
+#+end_src
+
+*** Common Techniques
+  Demo: [[https://github.com/f0rb1dd3n/Reptile][Reptile]]
+**** Hiding process
+隐藏进程需要进行以下步骤:
+- Managing the processes lifecycle. Be able to attach/detach some attributes
+  to process while forking and executing.
+- Managing the processes visibility by filtering out =/proc= and some system
+  calls.
+- Managing the processes CPU-time accounting.
+
+  attach/detach
+- Hook =copy_creds()= to be able to attach attributes to processes at fork
+  time. Inherit parent process attributes for all direct children, if required
+- Hook =exit_creds()= to be able to detach attributes from the processes at
+  exit time.
+- In it's simplest form at/detaching attributes to processes may be
+  implemented by using one of unused bit of =task->flags=, e.g. 0x80000000.
+
+  visibility
+- Hook =next_tgid()= to able to filter out =/proc/PID= like directory
+  entries. Just skip all the tasks with "hidden" attribute set from
+  being iterated.
+- Hook =find_task_by_vpid()= to be able to fight against [[https://github.com/Enrico204/unhide][unhide]] by altering
+  system calls: =getsid=, =getpgid=, =getpriority=, =sched_getparam=,
+  =sched_getaffinity=, =sched_getscheduler=, =sched_rr_get_interval=, =kill=.
+
+CPU-time accouting
+- Hook =account_process_tick()= to exclude ticks spent by a hidden processes
+  from system wide ticks accounting.
+**** Hiding files and directories
+- Filtering the access to files or directories by using their full path
+  (=open()=-like system calls).
+- Filtering files and directories from being listed
+  (=filldir()=-like system calls).
+
+  To be able to filter out the access to files or directories by using their
+filenames hook the following non-public kernel functions:
+- =do_sys_open=
+- =user_path_at=
+- =user_path_at_empty=
+
+  To filter out files and directories from being listed hook:
+- =filldir=, =filldir64=, =fillondir=
+- =compat_filldir=, =compat_filldir64=, =compat_fillonedir=
+- =__d_lookup=
+
+*** Advanced Techniques
+**** kernel auditing bypass
+**** filtering the kernel log
+=dmesg= or =journalctl=
+**** Matryoshka loader
+[[https://github.com/milabs/kmatryoshka][kmatryoshka]]
+
+- Write your =payload.ko= in form of LKM without any restrictions.
+- Write the =loader.ko= module 来加载加密的 =payload.ko=
+- Use =user_addr_max()= to get the current value of user-space address limit
+- Extend the user-space address limit (SEG) to fit the decrypted payload
+  and use =sys_load_module()= to load.
+- 恢复 user-space address limit by using =user_addr_max()= and SEG value.
+**** static string obfuscation
+用整数代替字符串

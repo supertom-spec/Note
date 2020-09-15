@@ -1,8 +1,6 @@
-# Windows Notes
-
-## Windows 汇编
-
-### 汇编语言 64 位 Windows API 使用简述
+* Windows Notes
+** Windows 汇编
+*** 汇编语言 64 位 Windows API 使用简述
 
 任何对 Windows API 的 32 位调用都可以重新编写为 64 位调用。只需要记住几个关键点就可以：
 
@@ -48,9 +46,7 @@ add rsp,40
     WriteString ENDP
 ```
 
-## WSL
-
-修改配色：[ColorTool](https://links.jianshu.com/go?to=https%3A%2F%2Fgithub.com%2Fmicrosoft%2Fterminal%2Freleases%2Ftag%2F1708.14008) 
+** WSL
 
 将 CapsLock 设置为 Ctrl
 
@@ -66,4 +62,6 @@ Windows Registry Editor Version 5.00
 "Scancode Map"=-
 ```
 
-## 
+** WinDbg
+
+- https://githomelab.ru/pykd/windbg-pack

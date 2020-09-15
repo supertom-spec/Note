@@ -72,3 +72,113 @@ while ToVisit.size > 0:
 - 通常定义为 f(D) = (D-KILL) ∪ GEN
 
 * static single assignment
+
+* 小记
+1. 词法分析器 + 文法分析器得到 AST 或 LR (暂考虑使用 anltr 等现成的)
+   (lex, yacc), (flex, bison), capstone
+2. 使用 datalog (souffle) 编写分析逻辑
+3. https://github.com/merrychap/shellen
+
+* Essentials of PL by Daniel P. Friedman and Mitchell Wand
+** 1 Inductive Sets of Data
+*** 1.1 Recursively Specified Data
+**** Inductive
+#+begin_src scheme :tangle yes :noweb yes :results raw
+(define in-S?
+  (lambda (n)
+    (if (zero? n) 't
+        (if (>= (- n 3) 0)
+            (in-S? (- n 3))
+            'f))))
+(in-S? 2)
+#+end_src
+
+#+RESULTS:
+f
+
+#+begin_src datalog
+.type Letter <: symbol
+.type Seq = [ l : Letter, r : Seq ]
+
+.decl letter( l : Letter )
+letter("a").
+letter("b").
+
+.decl seq ( s : Seq )
+seq(nil).
+seq([l,s]) :- letter(l), seq(s), len(s,n), n<5.
+
+.decl len ( s : Seq, n:number )
+len(nil,0).
+len(s,n+1) :- seq(s), s = [l,r], len(r,n).
+
+.decl res( s : symbol )
+.output res
+res("-") :- seq(nil).
+res("a") :- seq(["a", nil ]).
+res("b") :- seq(["b", nil ]).
+res("c") :- seq(["c", nil ]).
+res("ab") :- seq(["a", ["b", nil ]]).
+res("aba") :- seq(["a", ["b", ["a", nil ]]]).
+res("abc") :- seq(["a", ["b", ["c", nil ]]]).
+#+end_src
+
+**** Deductive
+*Definition 1.1.5 (list of integers, rules of inference)*
+                        n ∈ Int, l ∈ List-of-Int
+----------------        ------------------------
+() ∈ List-of-Int        (n . l) ∈ List-of-Int
+
+*** Inductive way
+(n, m) ∈ S if
+1. (n, m) = (0, 0), or
+2. (n-1, m-2n+1) ∈ S.
+*** Deductive way
+S =
+1. (0, 0) ∈ S, and
+2. if (n, m) ∈ S, then (n+1, m+2n+1) ∈ S.
+*** 何为 grammar
+一套推理规则, 例如 Def 1.1.5, 必要包含
+- Terminal Symbols. 如例子中的 '.', '(', ')'
+- Nonterminal Symbols. 如 <experssion>, 尖括号为 Backus-Naur Form (BNF) 记号格式
+- Productions. 推理规则被称为 productions. 推理式 A::=B 的左手边为
+  nonterminal symbol, 记号 ::= 读做 can be. 右手边为推理规则.
+
+**** 简写记号说明
+- '|' 或
+- '{...}*' 任意自然数个记号
+- '{...}+' 任意正整数和记号
+- '{...}*(c)' 用字符 c 分割的任意自然数个记号
+*** lambda expression
+
+    *Definition 1.1.8*
+    Terminal Symbols: lambda
+    LcExp ::= Identifier
+          ::= (lambda (Identifier) LcExp)
+          ::= (LcExp LcExp)
+
+**** Inductive examples (part of)
+***** occurs-free
+(occurs-free? 'x '((lambda (x) x) (x y))) => #t
+判断方法:
+1. 如果 e 是一个 Identifier, 则 x 在 e 中 occurs-free iff x in e
+2. 如果 e 为 (lambda (y) e'), 则 x 在 e 中 occurs-free iff
+   x not in y && x 在 e' 中 occurs-free.
+3. 如果 e 为 (e1 e2), 则 x 在 e 中 occurs-free iff
+   x in e1 或 x in e2.
+
+程序, 其中 Identifier ::= symbol
+#+begin_src scheme
+(define occurs-free?
+  (lambda (var exp)
+    (cond
+     ((symbol? exp) (eqv? var exp))
+     ((eqv? (car exp) 'lambda)
+      (and
+       (not (eqv? var (car (cadr exp))))
+       (occurs-free? var (caddr exp))))
+     (else
+      (or
+       (occurs-free? var (car exp))
+       (occurs-free? var (cadr exp)))))))
+#+end_src

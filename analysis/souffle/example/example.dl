@@ -1,0 +1,8 @@
+.decl edge(x:number, y:number)
+.input edge
+
+.decl path(x:number, y:number)
+.output path(delimiter=",")
+
+path(x, y) :- edge(x, y).               // if edge(x, y), then path(x, y). this is deductive way.
+path(x, y) :- path(x, z), edge(z, y).   // if path(x, z) and edge(z, y), then path(x, y).

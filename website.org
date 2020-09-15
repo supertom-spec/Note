@@ -1,0 +1,46 @@
+* Website List
+
+** 通报消息
+
+- https://bugs.chromium.org/hosting/
+
+** 好网站
+
+- https://attack.mitre.org/
+- https://vxug.fakedoma.in/
+- https://githomelab.ru/
+
+** Hand-Books
+
+** Cheat-Sheets
+
+- https://devhints.io/
+- https://www.sans.org/blog/the-ultimate-list-of-sans-cheat-sheets/
+- https://github.com/LeCoupa/awesome-cheatsheets
+- https://github.com/skywind3000/awesome-cheatsheets
+
+** 源码和项目
+
+- [MiniSAT](http://minisat.se/): 开源可满足性问题(SAT)求解器
+- [Rohitab Batra](http://www.rohitab.com/downloads):
+  API Monitor, Boss!, Password Decrypter, CGI-Telnet, TrãnsLìngö
+- [Cobra](http://cobra.feei.cn/): 源码审计项目
+
+** 大牛主页
+
+- [Michael Hicks](http://www.cs.umd.edu/~mwh/):
+  马里兰大学 Programming Languages 教授.
+- [Ruoyu Wang](https://ruoyuwang.me/):
+  angr 的核心开发者，Shellphish 战队核心成员。
+- [张银奎](http://advdbg.org/default.aspx): 《软件调试》
+- [鸟哥](http://linux.vbird.org/): 《Linux 私房菜》
+
+** Bookmarklet
+
+- 查看当前页面历史版本:
+  javascript:
+  location.href='https://web.archive.org/save/'+location.href.split%28'?'%29[0]
+
+** Hosts
+
+- 92.247.181.40           www.inoreader.com
