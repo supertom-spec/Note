@@ -249,6 +249,9 @@ c---------  1 root root 5, 2 Sep  7 06:11 ptmx
 
 当 /dev/fd* (Framebuffer) 设备没有启用时, 可以通过 /dev/tty0 访问显卡.
 
+** slab内存越界检查
+
+- http://news.eeworld.com.cn/mp/ymc/a52757.jspx
 * 综合利用
 ** kernel rootkit
 rootkit 的分类:

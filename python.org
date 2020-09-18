@@ -625,6 +625,120 @@ driver.get_screenshot_as_file("x.png")
 ** idapython
   - [[https://github.com/0xKira/api_palette][IDA API 补全插件]]
   - [[https://irq5.io/2020/05/25/batch-binary-analysis-with-ida-pro-7-4-automation/][IDAPython 批量分析]]
+  - [[https://githomelab.ru/pykd/pykd][pykd for windbg]]
+*** callee
+#+begin_src python
+import idautils
+
+call_chain = [] # 存放正向调用链信息
+
+
+def gen_call_chain(func_name, osintneting):
+    del call_chain[:]
+    f_call_out = open('d:\\call.csv', 'w')
+    get_my_callee(func_name, osintneting, f_call_out)
+    f_call_out.close()
+
+def get_my_callee(func_name, osintneting, fl):
+    if ida_kernwin.user_cancelled():
+        print('Cancelled')
+        fl.close()
+        exit()
+
+    str = '{0},'.format(func_name)
+    call_chain.append(str)
+    addr = get_name_ea(0, func_name)
+
+    # 获取所有子函数
+    dism_addr = list(idautils.FuncItems(addr))
+    xref_froms = []
+    for ea in dism_addr:
+        if ida_idp.is_call_insn(ea) is False:
+            continue
+        else:
+            callee = get_first_fcref_from(ea)
+            if callee != addr:
+                xref_froms.append(callee)
+    xref_froms = set(xref_froms)
+
+    # 嵌套结束条件
+    osintneting_end = False
+    if len(xref_froms) == 0:
+        osintneting_end = True
+    elif osintneting == -1:
+        osintneting_end = False
+    elif osintneting == 1:
+        osintneting_end = True
+    if osintneting_end is True:
+        for callee in call_chain:
+            sys.stdout.write(callee)
+            fl.write(callee)
+        sys.stdout.write('\r\n')
+        fl.write('\r\n')
+        call_chain.pop()
+        return
+
+    # 深度优先
+    for xref_from in xref_froms:
+        callee_name = get_func_name(xref_from)
+        if osintneting == -1:
+            get_my_callee(callee_name, -1, fl)
+        else:
+            get_my_callee(callee_name, osintneting - 1, fl)
+
+    call_chain.pop()
+#+end_src
+*** caller
+#+begin_src python
+import idautils
+
+r_call_chain = [] # 存放反向调用链信息
+
+
+def gen_r_call_chain(func_name, osintneting):
+    del r_call_chain[:]
+    f_r_call_out = open('d:\\r_call.csv', 'w')
+    get_my_caller(func_name, osintneting, f_r_call_out)
+    f_r_call_out.close()
+
+def get_my_caller(func_name, osintneting, fl):
+    if ida_kernwin.user_cancelled():
+        print('Cancelled')
+        fl.close()
+        exit()
+
+    str = '{0},'.format(func_name)
+    r_call_chain.append(str)
+    addr = get_name_ea(0, func_name)
+    addr_ref_to = get_first_fcref_to(addr)
+
+    # 嵌套结束条件
+    osintneting_end = False
+    if addr_ref_to == BADADDR:
+        osintneting_end = True
+    elif osintneting == -1:
+        osintneting_end = False
+    elif osintneting == 1:
+        osintneting_end = True
+    if osintneting_end is True:
+        length = len(r_call_chain)
+        for idx in range(length):
+            fl.write(r_call_chain[length - idx - 1])
+            sys.stdout.write(r_call_chain[length - idx - 1])
+        fl.write("\n")
+        sys.stdout.write('\r\n')
+        r_call_chain.pop()
+        return
+
+    # 深度优先
+    while (addr_ref_to != BADADDR) and (addr_ref_to != addr):
+        parent_func_name = get_func_name(addr_ref_to)
+        get_my_caller(parent_func_name, osintneting - 1, fl)
+        addr_ref_to = get_next_fcref_to(addr, addr_ref_to)
+        if addr_ref_to == BADADDR:
+            r_call_chain.pop() # 如果没有引用函数，弹出当前函数
+            break
+#+end_src
 * Python for Fun
 ** 自己输出自己
 #+begin_src python :results output

@@ -26,6 +26,8 @@ Bool halt(Program q) {
 ** soundness, completeness, soundiness
 ** 求近似解的基本方法
 *** abstraction
+- 数据抽象
+- 控制流抽象
 *** search
 - 设与原性质有关的变量 a+b*c
 - 以某种顺序遍历 a, b, c
@@ -59,6 +61,30 @@ while ToVisit.size > 0:
         ToVisit ∪= succ(v)
     DATA_v = f_v(MEET_v)
 #+end_example
+
+使用 datalog 编写的正向数据流分析的标准型(假设转换函数的定义为并集时)
+#+begin_src prolog
+data(d, v) :- gen(d, v).
+data(d, v) :- edge(v1, v), data(d, v1), not_kill(d, v).
+data(d, entry).
+#+end_src
+其中 v 是控制流图中的一个节点, d 表示集合中的一个元素.
+data(d, v) 表示节点 v 的待分析属性集合中有 d.
+
+交集的情况:
+#+begin_src prolog
+data(d, v) :- gen(d, v).
+data(d, v) :- data(d, (w for w in pred(v))), not_kill(d, v).
+data(d, entry).
+#+end_src
+
+复注:
++ not_kill 关系的构造效率较低
++ 如果引入 not 可能会带来矛盾
+  - =p(x) :- not p(x)=
+  - 不动点角度理解: 单次迭代并非一个单调函数
+  - 解决方法: 分层(stratified)规则-谓词上的任何环状依赖不能包含否定规则
++ prolog 中使用 \+ 表示否定
 
 ** 小结
 *** 构造待分析性质的半格

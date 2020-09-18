@@ -1,0 +1,60 @@
+// SOURCE CODE
+// v1 x *= -100;
+// v2 y += 1;
+// v3 while (y < z) {
+// v4     x *= -100;
+// v5     y += 1;
+//    }
+
+.type Var <: symbol
+.type Sign <: symbol
+.type Op <: symbol
+.type Node <: symbol
+
+// -- facts --
+.decl sign( s : Sign )
+sign("Bottom").
+sign("Pos").
+sign("Nag").
+sign("Zero").
+sign("Top").
+
+.decl succ( a : Node, b : Node )
+succ("v0", "v1").
+succ("v1", "v2").
+succ("v2", "v4").
+succ("v4", "v5").
+succ("v5", "v4").
+succ("v5", "exit").
+
+.decl pred( a : Node, b : Node )
+pred(X, Y) :- succ(Y, X).
+
+.decl gen( v : Node, n : Var, in : Sign, out : Sign )
+gen("v1", "x", "Pos", "Nag").
+gen("v1", "x", "Nag", "Pos").
+gen("v1", "x", "Zero", "Zero").
+gen("v1", "x", "Top", "Top").
+gen("v1", "y", A, A) :- sign(A).
+gen("v2", "x", A, A) :- sign(A).
+gen("v2", "y", "Zero", "Pos").
+gen("v2", "y", "Pos", "Pos").
+gen("v2", "y", "Nag", "Top").
+gen("v2", "y", "Top", "Top").
+gen("v4", "x", A, B) :- gen("v1", "x", A, B).
+gen("v4", "y", A, A) :- sign(A).
+gen("v5", "x", A, A) :- sign(A).
+gen("v5", "y", A, B) :- gen("v2", "y", A, B).
+gen("exit", "x", A, A) :- sign(A).
+gen("exit", "y", A, A) :- sign(A).
+
+// -- analysis --
+.decl data( v : Node, n : Var, s : Sign )
+data("v0", "x", "Pos").
+data("v0", "y", "Zero").
+data(V, N, SO) :- succ(V1, V), data(V1, N, SI), gen(V, N, SI, SO).
+
+.decl exitsign( n : Var, s : Sign )
+.output exitsign
+exitsign(N, S) :- data("exit", N, S).
+
