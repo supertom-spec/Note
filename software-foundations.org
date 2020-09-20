@@ -1,0 +1,22 @@
+* Logical Foundations
+** preface
+*** Overview
+**** Proof Assistants
+- *Automated theorem provers provide "push-button" operation*: SAT solvers, SMT
+  solvers, and model checkers.
+- *Proof assistants*: Isabelle, Agda, ACL2, PVS, Coq.
+
+Coq:
++ As a platform for modeling programming languages
++ As an environment for developing formally certified software and hardware
+  - /CompCert/: a fully-verified optimizing compiler for C
+  - /CertiKOS/: a fuuly verifed hypervisor, for proving the correctness of
+    subtle algorithms involving floating point numbers.
+  - /CertiCrypt/: an environment for reasoning about the security of
+    cryptographic algorithms.
+  - also being used to build verified implementations of the open-source
+    /RISC-V/ processor architecture.
++ As a realistic environment for functional programming with dependent types:
+  e.g. Ynot sytem embeds "relational Hoare reasoning"
++ As a proof assistant for higher-order logic: 4-color theorem, Felt-Thompson
+  Theorem's of classification of finite simple groups.

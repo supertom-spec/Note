@@ -97,6 +97,8 @@ data(d, entry).
 - 由于半格性质，函数需要单调
 - 通常定义为 f(D) = (D-KILL) ∪ GEN
 
+*** datalog
+ - [[https://note.youdao.com/ynoteshare1/index.html?id=270970f9e5d6f35babba3d022b436fc8&type=note#/][datalog理解]]
 * static single assignment
 
 * 小记
