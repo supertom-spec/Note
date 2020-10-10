@@ -238,6 +238,24 @@ False, [], {}, "", 0, 0.0, None
   --abi cp36m
   -r requirements.txt -d DIR
 #+end_src
+** 异常处理
+#+begin_src python
+# 方法1：捕获异常
+
+import sys, errno
+try:
+    ### IO operation ###
+except IOError as e:
+    if e.errno == errno.EPIPE:
+        ### Handle error ###
+
+# 方法2：忽略信号
+from signal import signal, SIGPIPE, SIG_DFL, SIG_IGN
+signal(SIGPIPE, SIG_IGN)
+
+# 恢复默认信号行为的方法
+# signal(SIGPIPE, SIG_DFL)
+#+end_src
 ** 常用自定义函数
 *** 调试函数
 **** 打印十六进制

@@ -214,6 +214,83 @@ nmap --privileged -sS 192.168.1.1
 只要管道中的字节数不超过 PIPE_BUF, 写就是原子的.
 
 进程不能对管道执行 seek().
+** inotify
+在 2.6.13 之后，inotify 取代了旧有的 dnotify，克服了它的缺陷。
+
+用户接口
+#+begin_src C
+#include <sys/inotify.h>
+/* 创建 inotify 实例，fd 指向一个 struct inotify_event 队列 */
+int fd = inotify_init();
+/* 向 fd 中添加对 path 的由 mask 指定的监视，返回监视描述符 */
+int wd = inotify_add_watch(fd, path, mask);
+/* 移除 fd 中的 wd 监视 */
+int ret = inotify_rm_watch(fd, wd);
+
+struct inotify_event {
+  int       wd;        /* Watch descriptor */
+  uint32_t  mask;      /* Mask describing event */
+  uint32_t  cookie;    /* cookie to synchronize two events */
+  uint32_t  len;       /* length (including nulls) of name */
+  char      name[];    /* stub for possible name */
+};
+#+end_src
+可以在函数 inotify_init() 返回的 fd 上使用 select()，poll() 或 ioctl 命令
+FIONREAD 来得到当前队列的长度。另外 close(fd) 将删除所有添加到 fd 中的
+watch 并做必要的清理。
+
+例子:
+#+begin_src C
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <sys/inotify.h>
+#include <unistd.h>
+
+#define EVENT_NUM 12
+char *event_str[EVENT_NUM] = {
+  "IN_ACCESS",          // File was accessed
+  "IN_MODIFY",          // File was modified
+  "IN_ATTRIB",          // File attributes were changed
+  "IN_CLOSE_WRITE",     // Writtable file closed
+  "IN_CLOSE_NOWRITE",   // Unwrittable file closed
+  "IN_OPEN",            // File was opened
+  "IN_MOVED_FROM",      // File was moved from X
+  "IN_MOVED_TO",        // File was moved to Y
+  "IN_CREATE",          // Subfile was created
+  "IN_DELETE",          // Subfile was deleted
+  "IN_DELETE_SELF",     // Self was deleted
+  "IN_MOVE_SELF",       // Self was moved
+};
+
+int main(int argc, char *argv[]) {
+  int fd, wd, len, nread;
+  char buf[1024];
+  struct inotify_event *event;
+
+  fd = inotify_init();
+  wd = inotify_add_watch(fd, argv[1], IN_ALL_EVENTS);
+  buf[sizeof(buf) - 1] = 0;
+  while ((len = read(fd, buf, sizeof(buf) - 1)) > 0) {
+    nread = 0;
+    while (len > nread) {
+      event = (struct inotify_event *)&buf[nread];
+      if (event->mask & IN_ISDIR) printf("Directory:\n");
+      for (int i = 0; i < EVENT_NUM; i++) {
+        if ((event->mask >> i) & 1) {
+          if (event->len > 0)
+            printf("%-20s --- %s\n", event_str[i], event->name);
+          else printf("%-20s --- %s\n", event_str[i], " ");
+        } // end if ((event->mask >> i) & 1)
+      } // end for (int i = 0; i < EVENT_NUM; i++)
+      nread = nread + sizeof(struct inotify_event) + event->len;
+    } // end while (len > nread)
+  } // end while ((len = read(fd, buf, sizeof(buf) - 1)) > 0)
+  return 0;
+}
+#+end_src
+
+ref: [[https://www.ibm.com/developerworks/cn/linux/l-inotifynew/index.html][ibm devloper]]
 ** 伪终端 tty, pty, pts
 - tty 是 teletypes 或者 teletypewriters 的缩写, 原指通过串行线用打印机键盘阅读和
   发送消息的东西, 后来被键盘和显示器取代.
@@ -453,3 +530,6 @@ filenames hook the following non-public kernel functions:
 - 恢复 user-space address limit by using =user_addr_max()= and SEG value.
 **** static string obfuscation
 用整数代替字符串
+
+** shellcode
+- shellen

@@ -1,0 +1,27 @@
+#+TITLE: Cve
+* Linux
+*** CVE-2020-14386 AF_PACKET 原生套接字漏洞
+https://paper.seebug.org/1348/
+https://github.com/cgwalters/cve-2020-14386
+
+漏洞类型: 整型溢出
+问题所在: af_pactet.c 的 tpacket_rcv() 函数
+#+begin_src C -n 2226 -r
+	if (sk->sk_type == SOCK_DGRAM) { // 不需要自行构造 MAC 首部
+		macoff = netoff = TPACKET_ALIGN(po->tp_hdrlen) + 16 +
+				  po->tp_reserve;
+	} else {                         // 自行构造 MAC 首部
+		unsigned int maclen = skb_network_offset(skb);
+		netoff = TPACKET_ALIGN(po->tp_hdrlen +
+				       (maclen < 16 ? 16 : maclen)) +
+				       po->tp_reserve;  // 可造成 netoff 的整形溢出
+		if (po->has_vnet_hdr) {      // 设置了 PACKET_VNET_HDR 选项
+			netoff += sizeof(struct virtio_net_hdr);
+			do_vnet = true;
+		}
+		macoff = netoff - maclen;
+	}
+#+end_src
+
+macoff, netoff, maclen 为 unsigned short, 最大值为 0xffff.
+而 tp_reserve 定义为 unsigned int, 最大值为 0xffffffff.
