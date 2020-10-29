@@ -9,6 +9,7 @@
     - [[https://www.linuxjournal.com/article/6210][Playing with ptrace, II]]
     - [[https://www.cnblogs.com/catch/p/3476280.html][玩转 ptrace]] [[https://blog.csdn.net/edonlii/article/details/8717029][翻译]]
     - [[https://www.cnblogs.com/tangr206/articles/3094358.html][GDB 中的 ptrace]]
+    - [[https://github.com/emptymonkey/ptrace_do][ptrace_do library]]
 * 基本编程
 ** 常用自定义函数
 *** 字符串处理
@@ -337,10 +338,6 @@
        }
      #+end_src
 
-     #+RESULTS:
-     | sizeof(short)=2 | sizeof(int)=4      |
-     | S=8             | more_aligend_int=4 |
-
 **** packed
      使用最小对齐方式
      #+begin_src C
@@ -357,6 +354,8 @@
       #endif
     #+end_src
 * 漏洞原理
+** ret2resolve
+https://blog.csdn.net/dydxdz/article/details/79868351
 ** printf
    - =%5$s= 可以输出栈中第六个参数
    - =%2048c%5$n= 可以将 2048 写入第六个参数指定的地址
@@ -415,7 +414,67 @@ int main() {
 - 使用一个 Heart-Beat 线程，定期向 socket 发送指定格式的心跳数据包，如果接收到对
   方的 RST 报文，说明对方已经关闭了 socket，那么我们也关闭这个 socket。
 - 设置 SO_KEEPALIVE 选项，并修改内核参数。
- 
+
+** epoll/kqueue
+https://blog.csdn.net/zanda_/article/details/82901022
+*** kqueue
+https://blog.csdn.net/Namcodream521/article/details/83032615
+**** int kqueue()
+返回一个描述符, 其内部数据结构为一个队列, 用以注册应用程序感兴趣的事件.
+该描述符可被用于 poll(), select() 或者另一个 kqueue.
+**** int kevent(...)
+#+begin_src C
+int kevent(int kq, // kqueue() 返回的描述符
+    const struct kevent *changelist, // 要监听的时间存储在 changelist
+    int nchanges,
+    struct kevent *eventlist, // 返回的事件存储在 eventlist
+    int nevents,
+    const struct timespec *timeout)
+#+end_src
+**** struct kevent
+#+begin_src C
+struct kevent {
+  uintpt_t ident;   // identifier for event, 用监听的描述符
+  short    filter;  // filter for event, 要监听什么类型的事件
+  u_short  flags;   // action flags for kq, 当事件发生时对 kq 进行的动作
+  u_int    fflags;  // filter flag value, 要监听哪些事件
+  intptr_t data;    // filter data value
+  void     *udata;  // opaque identifier
+}
+#+end_src
+<kq, ident, filter> 三元组是唯一的, 即, 对于每个 kq, <ident, filter> 是唯一的.
+**** EV_SET(...)
+#+begin_src C
+EV_SET(&kevent, ident, filter, flags, fflags, data, udata)
+#+end_src
+其中, /filter/ 用于指定内核的一小段代码, 当事件发生时执行和返回什么,
+/flags/ 用于描述 kevent 的动作,
+前面说的 int kevent(...) 函数可以把 kq 和 kevent 联系起来:
+  - EV_ADD: 将本 kevent 添加到 kq.
+  - EV_ENABLE: 返回
+  - EV_DISABLE: 不返回
+  - EV_DELETE: 将本 kevent 移出 kq. attach 在文件描述符上的 event 当关闭时自动删除.
+  - EV_CLEAR: 当事件返回时, 事件状态重置.
+  - EV_ONESHOT: 仅返回一次. 当第一次返回后删除
+  - EV_EOF:
+  - EV_ERROR:
+
+/filter/
+  - EVFILT_READ
+  - EVFILT_WRITE
+  - EVFILT_AIO
+  - EVFILT_VNODE, 与文件系统有关的
+  - EVFILT_PROC
+  - EVFILT_SIGNAL
+
+/fflags/
+  - NOTE_DELETE
+  - NOTE_WRITE
+  - NOTE_EXTEND, 文件追加
+  - NOTE_ATTRIB, 文件属性
+  - NOTE_LINK, 软硬连接
+  - NOTE_RENAME
+
 * 内核编程
 ** signal
 * 收藏夹

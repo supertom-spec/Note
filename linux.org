@@ -171,6 +171,8 @@ end
 nc -lvp 4000 | ./some_prog
 socat tcp-listen:10001,reuseaddr,fork EXEC:./some_prog,pty,raw,echo=0
 #+end_src
+*** 使用 socks5 转发所有流量
+http://darkk.net.ru/redsocks/
 ** 系统权限
 *** capabilites
 Linux 2.2 增加了 capabilities 的概念，可以理解为水平权限的分离。
@@ -329,6 +331,8 @@ c---------  1 root root 5, 2 Sep  7 06:11 ptmx
 ** slab内存越界检查
 
 - http://news.eeworld.com.cn/mp/ymc/a52757.jspx
+** freeBSD
+https://study.holmesian.org/FreeBSD/cvsup.html
 * 综合利用
 ** kernel rootkit
 rootkit 的分类:
@@ -533,3 +537,4 @@ filenames hook the following non-public kernel functions:
 
 ** shellcode
 - shellen
+

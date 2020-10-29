@@ -280,7 +280,7 @@ signal(SIGPIPE, SIG_IGN)
     : 74 65 73 74 00 01 02 03                         	test....
 ** 例程
 *** 尾递归
-    用 selenium 时遇到网页回退会刷新页面中元素的 guid 导致无法递归，采用尾递归。模型如下：
+用 selenium 时遇到网页回退会刷新页面中元素的 guid 导致无法递归，采用尾递归。模型如下：
 #+begin_src python :results output
   lll = {
       'a': [1, 2, 3],
@@ -454,6 +454,7 @@ conn.close()
 
 ** bs4
 ** selenium
+https://zhuanlan.zhihu.com/p/45043575
 *** 元素定位
 #+begin_src python
   find_element_by_id()
@@ -625,14 +626,23 @@ driver.get_screenshot_as_file("x.png")
 
   driver.quit()
 #+end_src
-* 用 Python 做 CTF 题
+* 高级编程
+** 基准测试
+http://www.vrplumber.com/programming/runsnakerun/
+** 与 C/C++ 通信
+https://www.zhihu.com/question/23003213/answer/56121859
+** 源码剖析
+有没有内容类似于《Python源码剖析》，但内容更新过，针对新版本的Python书籍？
+https://www.zhihu.com/question/40787248
+* 应用
+** 用 Python 做 CTF 题
 ** pwntools
 - python3: $ pip3 install git+https://github.com/arthaud/python3-pwntools.git
 - io-remote: send, sendline, sendafter, recvn, recvline, recvlines, recvuntil
 - io-process: gdb.attach, context.log_level='DEBUG', 
 - [shellcraft](http://docs.pwntools.com/en/stable/shellcraft.html)
 - io-ELF: e.address, e.symbols, e.got, e.plt
-* 用 Python 做逆向工程
+** 用 Python 做逆向工程
 ** miasm
   - [[https://github.com/cea-sec/miasm][miasm 项目]]
   - [[https://www.freebuf.com/articles/terminal/232540.html][使用Miasm分析Shellcode的例子]]
@@ -757,7 +767,7 @@ def get_my_caller(func_name, osintneting, fl):
             r_call_chain.pop() # 如果没有引用函数，弹出当前函数
             break
 #+end_src
-* Python for Fun
+** Python for Fun
 ** 自己输出自己
 #+begin_src python :results output
   s='s=%r;print(s%%s)';print(s%s)
@@ -767,4 +777,5 @@ def get_my_caller(func_name, osintneting, fl):
 : s='s=%r;print(s%%s)';print(s%s)
 ** Python burp
 http-prompt = httpie + prompt_toolkit
+
 

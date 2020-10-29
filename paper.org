@@ -37,3 +37,6 @@ Scalable Zero Knowledge with no Trusted Setup
 Where Does It Go? Refining Indirect-Call Targets with Multi-Layer Type Analysis
 作者：KangJie Liu，Hong Hu
 论文简介：来自明尼苏达大学的 KangJie Liu 和来自佐治亚理工学院的 Hong Hu 两位华人学者提出的针对系统软件中的间接调用 (target-undecidable indirect calls) 识别和分析的全新理论和方法，获得了本届大会的最佳论文奖。传统的对间接调用的识别方法基于类型分析，存在较高的假阳性概率。论文中提出了一种多层类型分析 (Multi-Layer Type Analysis, MLTA) 技术，可以有效地在 C/C++程序中识别间接调用的目标。作者通过基于 LLVM 实现了 MTLA 技术，在 Linux 内核、FreeBSD 内核和 Firefox 浏览器内核中进行了相应测试，评估后发现识别率是传统方法的 1.86-1.98 倍，同时通过该项实验，作者进一步发现了 Linux 内核中潜在的 35 个语义漏洞。
+
+** Internet
+https://www.mdsec.co.uk/2020/10/covert-web-shells-in-net-with-read-only-web-paths/

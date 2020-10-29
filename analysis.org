@@ -210,3 +210,6 @@ S =
        (occurs-free? var (car exp))
        (occurs-free? var (cadr exp)))))))
 #+end_src
+
+* 计算复杂度
+- 基础介绍1: https://zhuanlan.zhihu.com/p/139397047

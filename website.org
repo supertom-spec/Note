@@ -34,7 +34,10 @@
   angr 的核心开发者，Shellphish 战队核心成员。
 - [张银奎](http://advdbg.org/default.aspx): 《软件调试》
 - [鸟哥](http://linux.vbird.org/): 《Linux 私房菜》
-
+- [pi3](http://site.pi3.com.pl/)
+- [quarkslab](https://quarkslab.com/)
+- Ryan O'Neill A.K.A ElfMaster https://www.bitlackeys.org/
+- Python 相关 https://rushter.com/blog/
 ** Bookmarklet
 
 - 查看当前页面历史版本:
@@ -44,3 +47,12 @@
 ** Hosts
 
 - 92.247.181.40           www.inoreader.com
+-199.232.28.133    raw.githubusercontent.com
+
+** GitHub
+  - https://github.com/merrychap/shellen
+  - https://github.com/elfmaster/ftrace
+  - https://github.com/cboxdoerfer/fsearch
+  - https://github.com/mathics/Mathics
+  - https://github.com/elfmaster/ecfs
+  - https://github.com/thorkill/eresi
