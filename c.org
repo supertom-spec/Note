@@ -10,6 +10,7 @@
     - [[https://www.cnblogs.com/catch/p/3476280.html][玩转 ptrace]] [[https://blog.csdn.net/edonlii/article/details/8717029][翻译]]
     - [[https://www.cnblogs.com/tangr206/articles/3094358.html][GDB 中的 ptrace]]
     - [[https://github.com/emptymonkey/ptrace_do][ptrace_do library]]
+    - https://xz.aliyun.com/t/6883
 * 基本编程
 ** 常用自定义函数
 *** 字符串处理
