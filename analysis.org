@@ -213,3 +213,6 @@ S =
 
 * 计算复杂度
 - 基础介绍1: https://zhuanlan.zhihu.com/p/139397047
+
+* SAT
+    [[https://sahandsaba.com/understanding-sat-by-implementing-a-simple-sat-solver-in-python.html][用python写SAT solver]]
