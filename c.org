@@ -2,6 +2,8 @@
 ** assembly
    - https://blog.csdn.net/xiaoxiaowenqiang/article/details/80530438
    - [[https://www.cnblogs.com/lq0729/articles/2796448.html][CALL 指令有多少种写法]]
+  - 在线汇编: https://godbolt.org/
+  - 最牛的内连汇编指导: https://www.linuxprobe.com/gcc-how-to.html
 ** hook
    - [[https://www.cnblogs.com/iBinary/category/1087655.html][各类 hook 技术]]
 *** ptrace
@@ -11,6 +13,17 @@
     - [[https://www.cnblogs.com/tangr206/articles/3094358.html][GDB 中的 ptrace]]
     - [[https://github.com/emptymonkey/ptrace_do][ptrace_do library]]
     - https://xz.aliyun.com/t/6883
+    - [[https://coderatwork.cn/posts/2017-08-15-setting-hardware-breakpoint-using-ptrace/][ptrace 设置硬件断点]]
+*** utrace
+  - https://www.oschina.net/question/12_8862
+  - https://www.oracle.com/solaris/technologies/dtrace-tutorial.html#Intro
+  - On Dtrace Envy: https://lwn.net/Articles/244536/
+  - More Dtrace Enby: https://lwn.net/Articles/288458/
+** 函数重载
+  - https://www.cnblogs.com/haippy/archive/2012/12/27/2835358.html
+** 逆向
+ RE4B or "Understanding Assembly Language" by Dennis Yurichev.
+ https://beginners.re/#lite
 * 基本编程
 ** 常用自定义函数
 *** 字符串处理
@@ -172,13 +185,6 @@
         return 0;
       }
     #+end_src
-
-    #+RESULTS:
-    | data:     | 'ABC123Test-Lets-Try-this-input-and-see-What-happens'                  |
-    | encoded:  | 'QUJDMTIzVGVzdC1MZXRzLVRyeS10aGlzLWlucHV0LWFuZC1zZWUtV2hhdC1oYXBwZW5z' |
-    | dec-size: | ==data-size                                                            |
-    | dec:      | 'ABC123Test-Lets-Try-this-input-and-see-What-happens'                  |
-    | data:     | ==-dec                                                                 |
 
     参考: https://nachtimwald.com/2017/11/18/base64-encode-and-decode-in-c/
 *** 调试函数
