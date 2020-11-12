@@ -4,8 +4,10 @@
    - [[https://www.cnblogs.com/lq0729/articles/2796448.html][CALL 指令有多少种写法]]
   - 在线汇编: https://godbolt.org/
   - 最牛的内连汇编指导: https://www.linuxprobe.com/gcc-how-to.html
+- 跨架构: https://www.cnblogs.com/WangAoBo/p/debug-arm-mips-on-linux.html
 ** hook
    - [[https://www.cnblogs.com/iBinary/category/1087655.html][各类 hook 技术]]
+  - https://www.cnblogs.com/LittleHann/p/3854977.html
 *** ptrace
     - [[https://www.linuxjournal.com/article/6100][Playing with ptrace, I]]
     - [[https://www.linuxjournal.com/article/6210][Playing with ptrace, II]]
