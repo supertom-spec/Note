@@ -217,3 +217,10 @@ S =
 * SAT
     [[https://sahandsaba.com/understanding-sat-by-implementing-a-simple-sat-solver-in-python.html][用python写SAT solver]]
     [[https://www-cs-faculty.stanford.edu/~knuth/programs.html][Knuth写的程序]]
+    [[https://www.msoos.org/publications/][CryptoMiniSat ]]
+    https://stp.readthedocs.io/en/latest/#smt-libv2-usage
+    [[https://github.com/sukrutrao/SAT-Solver-DPLL][sat-solver-DPLL]]
+
+* datalog
+ - [[https://blog.csdn.net/z2664836046/article/details/83689729][pydatalog]]
+ - [[https://souffle-lang.github.io/tutorial#transitive-closure][souffle]]

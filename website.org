@@ -12,6 +12,35 @@
 
 ** Hand-Books
 
+** web 安全
+[[https://github.com/hahwul/jwt-hack][Json web token 攻击工具]]
+[[https://github.com/spaceraccoon/manuka][Manuka：一个开源情报沙箱]]
+[[https://github.com/moonD4rk/HackBrowserData][hack-browser-data：用于解密浏览器数据（密码|历史记录|Cookies|书签）的导出工具]]
+[[http://www.jayconrod.com/posts/55/a-tour-of-v8-garbage-collection][v8的垃圾回收机制研究]]
+[[http://phrack.org/papers/attacking_javascript_engines.html][如何攻击JavaScript引擎]]
+[[https://www.darknet.org.uk/2020/10/fuzzilli-javascript-engine-fuzzing-library][Fuzzilli：JavaScript Engine模糊测试库]]
+[[https://www.anquanke.com/post/id/219731][Fastjson < 1.2.68版本反序列化漏洞分析篇]]
+
+** Windows
+
+[[https://nasbench.medium.com/a-deep-dive-into-windows-scheduled-tasks-and-the-processes-running-them-218d1eed4cce][深入研究Windows计划任务及其运行过程]]
+[[https://github.com/CheckPointSW/showstopper][Anti-Debug 测试工具]]
+[[https://securityonline.info/pezor-powerful-tool-for-bypassing-av-solutions/][PEzor 一款开源的可绕过杀软检测的 PE 文件加壳工具]]
+[[https://github.com/tobor88/PowerShell-Red-Team][红队用来收集windows信息的powershell工具]]
+[[https://krabsonsecurity.com/2020/10/24/gacrux-a-basic-c-malware-with-a-custom-pe-loader/][Gacrux：基于C语言编写的可自定义PE加载的恶意软件]]
+
+
+** 嵌入式
+
+[[https://cybergibbons.com/hardware-hacking/reading-and-writing-firmware-on-an-stm32-using-swd/][使用SWD在STM32上读写固件]]
+[[https://cybergibbons.com/hardware-hacking/sourcing-a-hardware-hacking-toolkit/][硬件黑客工具包]]
+
+** MacOS
+
+
+[[https://www.hex-rays.com/wp-content/static/tutorials/xnu_debugger_primer/xnu_debugger_primer.pdf][利用 IDA Pro 调试 XNU 内核的官方教程]]
+
+
 ** Cheat-Sheets
 
 - https://devhints.io/
@@ -21,12 +50,13 @@
 
 ** 源码和项目
 
-- [MiniSAT](http://minisat.se/): 开源可满足性问题(SAT)求解器
-- [Rohitab Batra](http://www.rohitab.com/downloads):
-  API Monitor, Boss!, Password Decrypter, CGI-Telnet, TrãnsLìngö
-- [Cobra](http://cobra.feei.cn/): 源码审计项目
-- [nirsoft](https://www.nirsoft.net/utils/dpapi_data_decryptor.html)
-
+- [[http://minisat.se/][MiniSAT]]  开源可满足性问题(SAT)求解器, SAT0W
+- [[http://www.rohitab.com/downloads][Rohitab Batra]]: API Monitor, Boss!, Password Decrypter, CGI-Telnet, TrãnsLìngö
+- [[http://cobra.feei.cn/][cobra源码审计]]
+- [[https://www.nirsoft.net/utils/dpapi_data_decryptor.html][nirsoft]]
+- [[https://github.com/guardicore/monkey][Inferior Monkey 自动化渗透测试]]
+- [[https://github.com/dstotijn/hetty][http测试工具对标burp suite]]
+ 
 ** 大牛主页
 
 - [Michael Hicks](http://www.cs.umd.edu/~mwh/):
@@ -39,6 +69,7 @@
 - [quarkslab](https://quarkslab.com/)
 - Ryan O'Neill A.K.A ElfMaster https://www.bitlackeys.org/
 - Python 相关 https://rushter.com/blog/
+
 ** Bookmarklet
 
 - 查看当前页面历史版本:
