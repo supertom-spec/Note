@@ -27,6 +27,9 @@
 ** 逆向
  RE4B or "Understanding Assembly Language" by Dennis Yurichev.
  https://beginners.re/#lite
+
+** rootkit
+[[https://xcellerator.github.io/][linux rootkit]]
 * 基本编程
 ** 常用自定义函数
 *** 字符串处理
