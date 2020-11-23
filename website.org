@@ -1,24 +1,54 @@
 * Website List
 
 ** 通报消息
-
 - https://bugs.chromium.org/hosting/
 
 ** 好网站
-
 - https://attack.mitre.org/
 - https://vxug.fakedoma.in/
 - https://githomelab.ru/
 
 ** Hand-Books
+https://www.sans.org/blog/the-ultimate-list-of-sans-cheat-sheets/
 
 ** 安全工具
+*** 逆向工具
+0xjiayu/go_parser: IDAPro 的GO二进制文件处理脚本
+https://github.com/0xjiayu/go_parser
 
+ReHex 二进制编辑器
+https://github.com/solemnwarning/rehex
+
+分析加密文件
+https://blog.didierstevens.com/2020/11/18/decrypting-with-translate-py/
+
+[[https://github.com/CheckPointSW/showstopper][Anti-Debug 测试工具]]
+
+Cobalt Strike beacons 解析工具
+https://blog.didierstevens.com/2020/11/07/1768-k/
+
+*** 信息收集
 thewhiteh4t/FinalRecon: python编写的信息收集工具
 https://github.com/thewhiteh4t/FinalRecon
 
-0xjiayu/go_parser: IDAPro 的GO二进制文件处理脚本
-https://github.com/0xjiayu/go_parser
+Hetty: HTTP安全测试工具
+https://github.com/dstotijn/hetty
+
+漏洞发现工具
+https://github.com/Stuxend/siras
+https://packetstormsecurity.com/files/160148/graudit-2.8.tar.gz
+
+*** 编写工具
+Python 源码混淆与加密
+https://mp.weixin.qq.com/s/LmxdXRjMCOIisQzCISBoGw
+
+** 二进制安全
+缓冲区溢出漏洞利用指南
+https://github.com/johnjhacking/Buffer-Overflow-Guide
+
+探索先进自动化漏洞挖掘技术中的不足
+利用反向传播查找约束完善 fuzz
+https://mp.weixin.qq.com/s/1q_YCJoyCREtgU3X2_0uqQ
 
 ** web 安全
 [[https://github.com/hahwul/jwt-hack][Json web token 攻击工具]]
@@ -33,7 +63,6 @@ https://github.com/0xjiayu/go_parser
 ** Windows
 
 [[https://nasbench.medium.com/a-deep-dive-into-windows-scheduled-tasks-and-the-processes-running-them-218d1eed4cce][深入研究Windows计划任务及其运行过程]]
-[[https://github.com/CheckPointSW/showstopper][Anti-Debug 测试工具]]
 [[https://securityonline.info/pezor-powerful-tool-for-bypassing-av-solutions/][PEzor 一款开源的可绕过杀软检测的 PE 文件加壳工具]]
 [[https://github.com/tobor88/PowerShell-Red-Team][红队用来收集windows信息的powershell工具]]
 [[https://krabsonsecurity.com/2020/10/24/gacrux-a-basic-c-malware-with-a-custom-pe-loader/][Gacrux：基于C语言编写的可自定义PE加载的恶意软件]]
@@ -51,7 +80,6 @@ https://github.com/0xjiayu/go_parser
 
 
 [[https://www.hex-rays.com/wp-content/static/tutorials/xnu_debugger_primer/xnu_debugger_primer.pdf][利用 IDA Pro 调试 XNU 内核的官方教程]]
-
 
 ** Cheat-Sheets
 
