@@ -278,6 +278,14 @@ signal(SIGPIPE, SIG_IGN)
 
     #+RESULTS:
     : 74 65 73 74 00 01 02 03                         	test....
+
+**** unpack bytes
+#+begin_src python :results output
+from struct import *
+def unpack_bytes(f, l):
+    fmt = str(l) + 'B'
+    return ''.join(map(lambda x: hex(x)[2:].zfill(2), unpack(fmt, f.read(l))))
+#+end_src
 ** 例程
 *** 尾递归
 用 selenium 时遇到网页回退会刷新页面中元素的 guid 导致无法递归，采用尾递归。模型如下：
@@ -368,7 +376,7 @@ finished: ['a', 'b', 'c']
    #+RESULTS:
    : a
 
-** 装饰器     decorator
+** 装饰器    decorator
 *** 计时器装饰器
 #+begin_src python 
   def trace(func):
@@ -635,14 +643,12 @@ https://www.zhihu.com/question/23003213/answer/56121859
 有没有内容类似于《Python源码剖析》，但内容更新过，针对新版本的Python书籍？
 https://www.zhihu.com/question/40787248
 * 应用
-** 用 Python 做 CTF 题
 ** pwntools
 - python3: $ pip3 install git+https://github.com/arthaud/python3-pwntools.git
 - io-remote: send, sendline, sendafter, recvn, recvline, recvlines, recvuntil
 - io-process: gdb.attach, context.log_level='DEBUG', 
 - [shellcraft](http://docs.pwntools.com/en/stable/shellcraft.html)
 - io-ELF: e.address, e.symbols, e.got, e.plt
-** 用 Python 做逆向工程
 ** miasm
   - [[https://github.com/cea-sec/miasm][miasm 项目]]
   - [[https://www.freebuf.com/articles/terminal/232540.html][使用Miasm分析Shellcode的例子]]
@@ -767,7 +773,10 @@ def get_my_caller(func_name, osintneting, fl):
             r_call_chain.pop() # 如果没有引用函数，弹出当前函数
             break
 #+end_src
-** Python for Fun
+** Python burp
+http-prompt = httpie + prompt_toolkit
+
+* Fun Python
 ** 自己输出自己
 #+begin_src python :results output
   s='s=%r;print(s%%s)';print(s%s)
@@ -775,7 +784,3 @@ def get_my_caller(func_name, osintneting, fl):
 
 #+RESULTS:
 : s='s=%r;print(s%%s)';print(s%s)
-** Python burp
-http-prompt = httpie + prompt_toolkit
-
-

@@ -1,12 +1,13 @@
 * 编译
 ** assembly
-   - https://blog.csdn.net/xiaoxiaowenqiang/article/details/80530438
-   - [[https://www.cnblogs.com/lq0729/articles/2796448.html][CALL 指令有多少种写法]]
-  - 在线汇编: https://godbolt.org/
-  - 最牛的内连汇编指导: https://www.linuxprobe.com/gcc-how-to.html
-- 跨架构: https://www.cnblogs.com/WangAoBo/p/debug-arm-mips-on-linux.html
+在线编译器: https://godbolt.org/
+逆向工程: https://beginners.re/
+[[https://blog.csdn.net/xiaoxiaowenqiang/article/details/80530438][AT&T 汇编代码入门]]
+[[https://www.linuxprobe.com/gcc-how-to.html][最牛的 gcc 内连汇编指导]]
+[[https://www.cnblogs.com/WangAoBo/p/debug-arm-mips-on-linux.html][Qemu 运行不同架构的代码]]
+
 ** hook
-   - [[https://www.cnblogs.com/iBinary/category/1087655.html][各类 hook 技术]]
+  - [[https://www.cnblogs.com/iBinary/category/1087655.html][各类 hook 技术]]
   - https://www.cnblogs.com/LittleHann/p/3854977.html
   - [[https://filippo.io/linux-syscall-table/][syscall table]]
 *** ptrace
@@ -22,17 +23,6 @@
   - https://www.oracle.com/solaris/technologies/dtrace-tutorial.html#Intro
   - On Dtrace Envy: https://lwn.net/Articles/244536/
   - More Dtrace Enby: https://lwn.net/Articles/288458/
-** 函数重载
-  - https://www.cnblogs.com/haippy/archive/2012/12/27/2835358.html
-   
-** 逆向
- RE4B or "Understanding Assembly Language" by Dennis Yurichev.
- https://beginners.re/#lite
-
-** rootkit
-[[https://xcellerator.github.io/][linux rootkit]]
-[[https://blog.csdn.net/SweeNeil/article/details/90038286][kernel ftrace]]
-[[https://www.kernel.org/doc/html/latest/trace/ftrace.html][ftrace doc]]
 
 * 基本编程
 ** 常用自定义函数
@@ -280,8 +270,8 @@
 
 ** __attribute__
 *** [[http://gcc.gnu.org/onlinedocs/gcc-4.0.0/gcc/Function-Attributes.html][function attribute]]
-    函数属性可以帮助开发者把一些特性添加到函数声明中，从而使得 gcc -Wall 在检查
-错误方面功能更强大。
+函数属性可以帮助开发者把一些特性添加到函数声明中，
+从而使得 gcc -Wall 在检查错误方面功能更强大。
 **** format
      可以使 gcc 检查函数声明和实际调用之间的*格式化字符串*是否匹配。
      #+begin_src C :flags -Wall
@@ -370,18 +360,34 @@
       #define __attribute__(x) /* NOTHING */
       #endif
     #+end_src
+   
 * 漏洞原理
-** ret2resolve
-https://blog.csdn.net/dydxdz/article/details/79868351
-** printf
-   - =%5$s= 可以输出栈中第六个参数
-   - =%2048c%5$n= 可以将 2048 写入第六个参数指定的地址
-** heap
-   - [[https://azeria-labs.com/heap-exploitation-part-1-understanding-the-glibc-heap-implementation/][Heap Exploitation Part I]]
+** 栈溢出
+ret2resolve: https://blog.csdn.net/dydxdz/article/details/79868351
+** 堆溢出
+- [[https://azeria-labs.com/heap-exploitation-part-1-understanding-the-glibc-heap-implementation/][Heap Exploitation Part I]]
+** 格式化字符串
+- =%5$s= 可以输出栈中第六个参数
+- =%2048c%5$n= 可以将 2048 写入第六个参数指定的地址
+- =%5$hn= 2字节 =%4$hhn= 1字节
+ 
 * 网络编程
 ** socket
-** select
-*** example
+*** CLOSE_WAIT
+- 代码需要判断 socket，一旦 read 返回 0，断开连接，read 返回负，检查一下 errno，
+  如果不是 AGAIN，也断开连接。(在 UNP 7.5 节的图 7.6 中，可以看到使用 select 能
+  够检测出对方发送了 FIN，再根据这条规则就可以处理 CLOSE_WAIT 的连接)
+- 给每一个 socket 设置一个时间戳 last_update，每接收或者是发送成功数据，就用当前
+  时间更新这个时间戳。定期检查所有的时间戳，如果时间戳与当前时间差值超过一定的阈
+  值，就关闭这个 socket。
+- 使用一个 Heart-Beat 线程，定期向 socket 发送指定格式的心跳数据包，如果接收到对
+  方的 RST 报文，说明对方已经关闭了 socket，那么我们也关闭这个 socket。
+- 设置 SO_KEEPALIVE 选项，并修改内核参数。
+
+** 事件复用技术
+[[https://blog.csdn.net/zanda_/article/details/82901022][事件复用技术比较：Epoll&Kqueue]]
+
+*** select
 #+begin_src C
 #include <stdio.h>
 #include <stdlib.h>
@@ -421,21 +427,9 @@ int main() {
 }
 #+end_src
 
-*** CLOSE_WAIT
-- 代码需要判断 socket，一旦 read 返回 0，断开连接，read 返回负，检查一下 errno，
-  如果不是 AGAIN，也断开连接。(在 UNP 7.5 节的图 7.6 中，可以看到使用 select 能
-  够检测出对方发送了 FIN，再根据这条规则就可以处理 CLOSE_WAIT 的连接)
-- 给每一个 socket 设置一个时间戳 last_update，每接收或者是发送成功数据，就用当前
-  时间更新这个时间戳。定期检查所有的时间戳，如果时间戳与当前时间差值超过一定的阈
-  值，就关闭这个 socket。
-- 使用一个 Heart-Beat 线程，定期向 socket 发送指定格式的心跳数据包，如果接收到对
-  方的 RST 报文，说明对方已经关闭了 socket，那么我们也关闭这个 socket。
-- 设置 SO_KEEPALIVE 选项，并修改内核参数。
-
-** epoll/kqueue
-https://blog.csdn.net/zanda_/article/details/82901022
 *** kqueue
-https://blog.csdn.net/Namcodream521/article/details/83032615
+[[https://blog.csdn.net/Namcodream521/article/details/83032615][kqueue 的用法]]
+
 **** int kqueue()
 返回一个描述符, 其内部数据结构为一个队列, 用以注册应用程序感兴趣的事件.
 该描述符可被用于 poll(), select() 或者另一个 kqueue.
@@ -492,7 +486,12 @@ EV_SET(&kevent, ident, filter, flags, fflags, data, udata)
   - NOTE_LINK, 软硬连接
   - NOTE_RENAME
 
-* 收藏夹
-  - https://caiorss.github.io/C-Cpp-Notes/
-  - https://blog.talosintelligence.com/2020/08/barbervisor.html
-  - [[https://krabsonsecurity.com/2020/10/24/gacrux-a-basic-c-malware-with-a-custom-pe-loader/][custom pe loader]]
+* 实现 C++ 类似功能
+函数重载: https://www.cnblogs.com/haippy/archive/2012/12/27/2835358.html
+
+* 系统编程
+rootkit: https://xcellerator.github.io/
+syscall: https://filippo.io/linux-syscall-table/
+
+* 链接
+https://caiorss.github.io/C-Cpp-Notes/

@@ -46,7 +46,7 @@ add rsp,40
     WriteString ENDP
 ```
 
-** WSL
+** 键位设置
 
 将 CapsLock 设置为 Ctrl
 
@@ -63,15 +63,10 @@ Windows Registry Editor Version 5.00
 ```
 
 ** WinDbg
+- [[https://blog.csdn.net/counsellor/article/details/80816583][windbg 独立安装包]]
+- [[https://githomelab.ru/pykd/windbg-pack][windbg pykd 插件]]
+- [[https://blog.csdn.net/jinzhuojun/article/details/7226443][Debugging API]]
 
-- https://githomelab.ru/pykd/windbg-pack
-- windows 下的 ptrace: [[https://blog.csdn.net/jinzhuojun/article/details/7226443][Debugging API]]
-- [[https://bbs.csdn.net/topics/50311247][Hook a function]]
-- 独立安装包 https://blog.csdn.net/counsellor/article/details/80816583
 ** windows hook
-- 绕过用户模式 hook 的工具: https://winternl.com/memfuck/
-** mimitakz
-- https://s3cur3th1ssh1t.github.io/Building-a-custom-Mimikatz-binary/
+[[https://winternl.com/memfuck/][MemFuck: 绕过用户模式 hook 的工具]]
 
-** 其他
-[[https://3gstudent.github.io/3gstudent.github.io/%E5%86%85%E5%AD%98%E5%8A%A0%E8%BD%BDSeatbelt%E7%9A%84%E5%AE%9E%E7%8E%B0/][内存加载 seatbelt]]

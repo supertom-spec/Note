@@ -85,3 +85,6 @@
 **** LaTeX
 *** 进阶
   https://brantou.github.io/2017/10/31/literate-devOps/
+
+* 中文输入
+https://github.com/tumashu/pyim
