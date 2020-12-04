@@ -16,7 +16,7 @@
 .decl assign( a:var, b:var )
 .decl new( v:var, o:obj )
 .decl ld( a:var, b:var, f:field )	// load  v4 = v1.f
-.decl st( a:var, f:field, b:var ) // store v1.f = v3
+.decl st( a:var, f:field, b:var )   // store v1.f = v3
 
 
 // -- facts --

@@ -1,4 +1,6 @@
+#+STARTUP: hideblocks
 * Org-mode
+https://sainathadapa.github.io/emacs-spacemacs-config/org-config
 ** Org-Babel
 *** 代码块
 **** 基本用法
@@ -86,5 +88,42 @@
 *** 进阶
   https://brantou.github.io/2017/10/31/literate-devOps/
 
-* 中文输入
+* pyim 中文输入
 https://github.com/tumashu/pyim
+** 数学词库
+加入到 ~/.emacs.d/.local/straight/repos/pyim-basedict/pytim-basedict.pyim
+iin ∈
+iunion ∨
+iinter ∧
+iempty Ø
+iops × ÷ ±
+ile ≤
+ige ≥
+ilt <
+igt >
+ilog ㏒
+iln ㏑
+ialpha α Α
+ibeta β Β
+igamma γ Γ
+ideta δ Δ
+iepsilon ε Ε
+izeta ζ Ζ
+ieta η Η
+itheta θ Θ
+iiota ι Ι
+ikappa κ Κ
+ilambda λ ∧
+imu μ Μ
+inu ν Ν
+ixi ξ Ξ
+iomicron ο Ο
+ipi π ∏
+irho ρ Ρ
+isigma σ ∑
+itau τ Τ
+iupsilon υ Υ
+iphi φ Φ
+ichi χ Χ
+ipsi ψ Ψ
+iomega ω Ω

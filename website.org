@@ -3,6 +3,7 @@
 [[https://vxug.fakedoma.in/][vx underground]]
 [[https://githomelab.ru/][pkyd for windbg]]
 [[https://zhuanlan.zhihu.com/p/104573160][组建技术团队的思考]]
+[[https://www.explainthatstuff.com/flashmemory.html][flash 存储器是怎么工作的]]
 
 *** Cheat-Sheets
 https://devhints.io/
@@ -57,8 +58,12 @@ nju-sa:            https://pascal-group.bitbucket.io/teaching.html
 
 **** 漏洞挖掘
 ***** SAT
+[[https://sahandsaba.com/understanding-sat-by-implementing-a-simple-sat-solver-in-python.html][用 python 入门 SAT]]
+[[https://www.msoos.org/publications/][Wonderings of a SAT geek]]
 [[http://minisat.se/][MiniSAT]]
 [[https://www-cs-faculty.stanford.edu/~knuth/programs.html][SAT0W]]
+[[https://stp.readthedocs.io/en/latest/#smt-libv2-usage][SMT-LIBv2]]
+[[https://github.com/sukrutrao/SAT-Solver-DPLL][SAT-Solver-DPLL]]
 
 ***** 符号执行
 [[https://chengyusong.github.io/fuzzing/2020/11/18/kirenenko.html][Kirenenko: 动态符号执行分析工具]]
@@ -72,6 +77,7 @@ nju-sa:            https://pascal-group.bitbucket.io/teaching.html
 [[https://github.com/elfmaster/ecfs][ecfs: 二进制工具]]
 [[https://github.com/thorkill/eresi][eresi: 二进制工具]]
 [[https://github.com/joxeankoret/pigaios][pigaios: 将二进制源码与二进制比较]]
+[[https://blog.knownsec.com/2020/11/%E4%BB%8E0%E5%BC%80%E5%A7%8B%E8%81%8A%E8%81%8A%E8%87%AA%E5%8A%A8%E5%8C%96%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%B7%A5%E5%85%B7/][KunLun-M: 昆仑镜]]
 
 **** Web 安全
 [[https://github.com/hahwul/jwt-hack][jwt-hack: Json web token 攻击工具]]
