@@ -1,9 +1,9 @@
 #+STARTUP: hideblocks
 * Introduction
-** Godel's Incompleteness Theorem
+** Godel Incompleteness Theorem
 - 蕴含皮亚诺算术公理的一致系统是不完备的
 - 对任意能表示自然数的系统，一定有定理不能被证明
-** Rice's Theorem
+** Rice Theorem
 - Any non-trivial property about the language recognized by a Turing machine
   (recursively enumerable) is undecidable.
 - non-trivial property: at least one Turing machine has the property, and at
@@ -203,6 +203,7 @@ Terminal Symbols: lambda
 LcExp ::= Identifier
       ::= (lambda (Identifier) LcExp)
       ::= (LcExp LcExp)
+     
 *** 1.2 Deriving Recursive Programs
 ***** occurs-free
 (occurs-free? 'x '((lambda (x) x) (x y))) => #t
@@ -253,7 +254,7 @@ S-exp  ::= Symbol | S-list
 (subst 'a 'b '((b c) (b d)))
 #+end_src
 
-***** slogan: Follow the Grammar!
+***** SLOGAN: Follow the Grammar!
 - 为语法中的每个非终止符写一个过程
 - 对于每个过程，为每个不同的或类别分别写一个子过程
 

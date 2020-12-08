@@ -1,63 +1,109 @@
-
-** 收藏夹
-[[https://vxug.fakedoma.in/][vx underground]]
-[[https://githomelab.ru/][pkyd for windbg]]
-[[https://zhuanlan.zhihu.com/p/104573160][组建技术团队的思考]]
-[[https://www.explainthatstuff.com/flashmemory.html][flash 存储器是怎么工作的]]
-
-*** Cheat-Sheets
+* Cheat-Sheets
 https://devhints.io/
 https://github.com/LeCoupa/awesome-cheatsheets
 https://github.com/skywind3000/awesome-cheatsheets
 
-*** People
-张银奎:       http://advdbg.org/default.aspx
-鸟哥:          http://linux.vbird.org/
-Ryan Neill (ElfMaster): https://www.bitlackeys.org/
-[[http://www.cs.umd.edu/~mwh/][Michael Hicks]]: 马里兰大学 Programming Languages 教授.
-[[https://ruoyuwang.me/][Ruoyu Wang]]: angr 的核心开发者，Shellphish 战队核心成员。
-[[https://rushter.com/blog/][Artem Golubin]]: Python Hacker
+* Course
+cmu15414: https://www.cs.cmu.edu/~15414/schedule.html
+nju-sa:   https://pascal-group.bitbucket.io/teaching.html
+pku-sa:   https://xiongyingfei.github.io/SA/2017/main.htm
 
-*** Course
-cmu15414:     https://www.cs.cmu.edu/~15414/schedule.html
-nju-sa:            https://pascal-group.bitbucket.io/teaching.html
+* Conference
+https://zeronights.ru/materials/
+https://www.ccc.de/
+https://www.offensivecon.org/
+https://www.blackhat.com/
+https://conference.hitb.org/
+https://infiltratecon.com/
+http://powerofcommunity.net/
+https://outflux.net/slides/
+https://media.defcon.org/
 
-*** Project
-[[https://www.nirsoft.net/utils/dpapi_data_decryptor.html][nirsoft]]
-[[https://github.com/cboxdoerfer/fsearch][fsearch: everthing for linux]]
-[[https://github.com/mathics/Mathics][Mathics: free mathematics]]
+https://www.wechall.net/
+https://overthewire.org/wargames/
+http://pwnable.kr/play.php
+https://pwnable.tw/
+http://reversing.kr/
+https://www.hackthebox.eu/
+https://ctf.hacker101.com/
+https://www.hackerrank.com/
+https://www.51nod.com/focus.html
+https://projecteuler.net/about
+https://brilliant.org/courses/#recent
 
-**** 硬件开发
+* Gate-of-gates
+https://mathurls.com
+https://physurls.com/
+https://sciurls.com/
+https://techurls.com/
+https://devurls.com/
+https://tuxurls.com/
+https://finurls.com/
+
+* Magezine
+[[http://phrack.org/][phrack]]
+[[https://vxug.fakedoma.in/][vx-underground]]
+[[https://zhuanlan.zhihu.com/p/104573160][组建技术团队的思考]]
+
+* Research
+** 硬件
+[[https://www.explainthatstuff.com/flashmemory.html][flash 存储器是怎么工作的]]
+
+** 浏览器 Pwn
+[[http://www.jayconrod.com/posts/55/a-tour-of-v8-garbage-collection][v8 的垃圾回收机制研究]]
+[[http://phrack.org/papers/attacking_javascript_engines.html][如何攻击 JavaScript 引擎]]
+
+** 二进制安全
+[[https://github.com/johnjhacking/Buffer-Overflow-Guide][缓冲区溢出漏洞利用指南]]
+[[https://mp.weixin.qq.com/s/1q_YCJoyCREtgU3X2_0uqQ][利用反向传播查找约束完善 fuzz]]
+
+** 操作系统
+[[https://sel4.systems/][seL4 安全验证的微内核]]
+[[https://nasbench.medium.com/a-deep-dive-into-windows-scheduled-tasks-and-the-processes-running-them-218d1eed4cce][Windows 计划任务的研究]]
+[[https://www.hex-rays.com/wp-content/static/tutorials/xnu_debugger_primer/xnu_debugger_primer.pdf][利用 IDA Pro 调试 XNU 内核的官方教程]]
+
+* Project
+** 通用工具
+[[https://github.com/cboxdoerfer/fsearch][fsearch:]] everthing for linux
+[[https://github.com/mathics/Mathics][Mathics]]: free mathematics
+[[http://codef00.com/projects][codef00]]: edb, evanO
+[[https://mrxn.net/][mrxn]]: 帮忙收集了很多工具
+
+** 硬件开发
 [[https://github.com/aggresss/RFDemo][路由器就是开发板]]
 [[https://cybergibbons.com/hardware-hacking/sourcing-a-hardware-hacking-toolkit/][硬件黑客工具包]]
 [[https://cybergibbons.com/hardware-hacking/reading-and-writing-firmware-on-an-stm32-using-swd/][使用 SWD 在 STM32 上读写固件]]
 
-**** 逆向工具
-[[https://github.com/0xjiayu/go_parser][0xjiayu/go_parser: IDAPro 的 GO 语言脚本]]
-[[https://github.com/solemnwarning/rehex][ReHex 二进制编辑器]]
-[[https://blog.didierstevens.com/2020/11/18/decrypting-with-translate-py/][分析加密文件的工具脚本]]
-[[https://github.com/CheckPointSW/showstopper][Anti-Debug 反调试测试工具]]
+** 逆向工具
+[[https://github.com/solemnwarning/rehex][ReHex: 二进制编辑器]]
+[[https://github.com/WerWolv/ImHex][ImHex: 二进制编辑器]]
+[[https://github.com/trailofbits/pe-parse][pe-parse: PE格式解析工具]]
+[[https://github.com/0xjiayu/go_parser][go_parser: IDAPro 的 GO 语言脚本]]
+[[https://github.com/CheckPointSW/showstopper][showstopper: Anti-Debug 反调试测试工具]]
 [[https://blog.didierstevens.com/2020/11/07/1768-k/][Cobalt Strike beacons 解析工具]]
+[[https://blog.didierstevens.com/2020/11/18/decrypting-with-translate-py/][分析加密文件的工具脚本]]
+[[https://github.com/AllsafeCyberSecurity/awesome-ghidra][awesome-ghidra: Ghidra 相关工具收集]]
+[[https://githomelab.ru/][pkyd: windbg 扩展]]
 
-**** 安全开发
+** 安全开发
 [[https://mp.weixin.qq.com/s/LmxdXRjMCOIisQzCISBoGw][Python 源码混淆与加密]]
 [[https://github.com/vxunderground/MalwareSourceCode][恶意代码源码]]
 [[https://paper.seebug.org/1413/][如何编写shellcode loader]]
 
-**** 信息收集
+** 信息收集
 [[https://github.com/thewhiteh4t/FinalRecon][thewhiteh4t/FinalRecon: python编写的信息收集工具]]
 [[https://github.com/spaceraccoon/manuka][Manuka：一个开源情报沙箱]]
 [[https://github.com/tobor88/PowerShell-Red-Team][收集 windows 信息的 powershell 工具]]
 
-**** 模糊测试
+** 模糊测试
 [[https://blog.talosintelligence.com/2020/08/barbervisor.html][利用 VT-x 虚拟化快照的 fuzz]]
 [[https://blog.doyensec.com//2020/11/19/inql-scanner-v3.html][InQL Scanner: 安全测试工具]]
 [[https://www.kitploit.com/2020/11/uafuzz-binary-level-directed-fuzzing.html][UAFuzz: 二进制级定向 fuzz UAF 漏洞的工具]]
 [[https://www.darknet.org.uk/2020/10/fuzzilli-javascript-engine-fuzzing-library][Fuzzilli：JavaScript Engine 模糊测试库]]
 [[https://github.com/fate0/prvd][prvd: php fuzz 工具]]
 
-**** 漏洞挖掘
-***** SAT
+** 漏洞挖掘
+*** SAT
 [[https://sahandsaba.com/understanding-sat-by-implementing-a-simple-sat-solver-in-python.html][用 python 入门 SAT]]
 [[https://www.msoos.org/publications/][Wonderings of a SAT geek]]
 [[http://minisat.se/][MiniSAT]]
@@ -65,11 +111,11 @@ nju-sa:            https://pascal-group.bitbucket.io/teaching.html
 [[https://stp.readthedocs.io/en/latest/#smt-libv2-usage][SMT-LIBv2]]
 [[https://github.com/sukrutrao/SAT-Solver-DPLL][SAT-Solver-DPLL]]
 
-***** 符号执行
+*** 符号执行
 [[https://chengyusong.github.io/fuzzing/2020/11/18/kirenenko.html][Kirenenko: 动态符号执行分析工具]]
 [[https://github.com/guardicore/monkey][Inferior Monkey 自动化渗透测试]]
 
-***** 静态分析
+*** 静态分析
 [[http://cobra.feei.cn/][cobra 源码审计]]
 [[https://packetstormsecurity.com/files/160148/graudit-2.8.tar.gz][graudit: 用 grep 发现问题]]
 [[https://github.com/merrychap/shellen][shellen: 汇编反汇编工具]]
@@ -79,39 +125,50 @@ nju-sa:            https://pascal-group.bitbucket.io/teaching.html
 [[https://github.com/joxeankoret/pigaios][pigaios: 将二进制源码与二进制比较]]
 [[https://blog.knownsec.com/2020/11/%E4%BB%8E0%E5%BC%80%E5%A7%8B%E8%81%8A%E8%81%8A%E8%87%AA%E5%8A%A8%E5%8C%96%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%B7%A5%E5%85%B7/][KunLun-M: 昆仑镜]]
 
-**** Web 安全
+** Web 安全
 [[https://github.com/hahwul/jwt-hack][jwt-hack: Json web token 攻击工具]]
 [[https://github.com/dstotijn/hetty][Hetty: 安全测试工具对标 burp suite]]
 [[https://github.com/micha3lb3n/SSRFire][SSRFIRE: 自动 SSRF 探测器]]
 
-**** 安全对抗
+** 安全对抗
 [[https://www.kitploit.com/2020/11/wsb-detect-tool-to-detect-if-you-are.html][Wsb-Detect: 检测是否在 Windows 沙箱中]]
 [[https://securityonline.info/pezor-powerful-tool-for-bypassing-av-solutions/][PEzor: 绕过杀软检测的 PE 文件加壳工具]]
 
-**** 测试工具
+** 测试工具
+[[https://www.nirsoft.net/utils/dpapi_data_decryptor.html][nirsoft]]
 [[https://github.com/moonD4rk/HackBrowserData][hack-browser-data: 用于导出浏览器口令等数据]]
 
-*** Research
-**** 浏览器 Pwn
-[[http://www.jayconrod.com/posts/55/a-tour-of-v8-garbage-collection][v8 的垃圾回收机制研究]]
-[[http://phrack.org/papers/attacking_javascript_engines.html][如何攻击 JavaScript 引擎]]
+* People
+张银奎:       http://advdbg.org/default.aspx
+鸟哥:         http://linux.vbird.org/
+Ryan Neill (ElfMaster): https://www.bitlackeys.org/
+[[http://www.cs.umd.edu/~mwh/][Michael Hicks]]: 马里兰大学 PL 教授
+[[https://ruoyuwang.me/][Ruoyu Wang]]: angr 核心开发者，Shellphish 战队核心成员
+[[https://syssec.mistakenot.net/][Dennis Andriesse]]: Binary Ninja 中二进制分析算法贡献者
+[[https://gruss.cc/][Daniel Gruss]]: Graz 系统安全方向助理教授，组员发现了 *Meltdown* 漏洞
+[[https://gts3.org/][Gergia Tech SSLab]]: 多个开源项目
 
-**** 二进制安全
-[[https://github.com/johnjhacking/Buffer-Overflow-Guide][缓冲区溢出漏洞利用指南]]
-[[https://mp.weixin.qq.com/s/1q_YCJoyCREtgU3X2_0uqQ][利用反向传播查找约束完善 fuzz]]
+[[https://www.cs.princeton.edu/~appel/][Andrew Appel]]: Princeton, Verified Software Toolchain, CertiCoq, etc.
 
-**** 操作系统
-[[https://sel4.systems/][seL4 安全验证的微内核]]
-[[https://nasbench.medium.com/a-deep-dive-into-windows-scheduled-tasks-and-the-processes-running-them-218d1eed4cce][Windows 计划任务的研究]]
-[[https://www.hex-rays.com/wp-content/static/tutorials/xnu_debugger_primer/xnu_debugger_primer.pdf][利用 IDA Pro 调试 XNU 内核的官方教程]]
+[[https://catonmat.net/][CATonMAT]]: Linux player
+[[https://rushter.com/blog/][Artem Golubin]]: Python Hacker
+[[https://www.geoffchappell.com][Geoff Chappel]]: Windows Software Analyst
 
-** Bookmark-let
-#+begin_src javascript 查看当前页面历史版本
-javascript:
-location.href='https://web.archive.org/save/'+location.href.split%28'?'%29[0]
-#+end_src
+[[https://www.cs.toronto.edu/~hinton/][Geoffrey Hinton]]: 深度学习之父
+[[https://www.scaruffi.com/][Piero Scaruffi]]: 硅谷人工智能大炮
+[[https://www.boazbarak.org/][Boaz Barak]]: Harvard 计算理论教授，最新方向 ML Theory
+[[http://crypto.stanford.edu/~dabo/][Dan Boneh]]: 密码学大佬
+[[https://www.cs.virginia.edu/dwu4/projects.html][David Wu]]: Virginia 大学密码学教授主页项目地址
+[[http://www.wisdom.weizmann.ac.il/~/oded/][Oded Goldreich]]: Author of /Foundations of Cryptography/
+[[http://www.cs.umd.edu/~jkatz/][Jonathan Katz]]: Author of /Introduction to Modern Cryptography/
+[[https://crypto.stanford.edu/craig/][Craig Gentry]]: 同态加密大佬
+[[https://web.xidian.edu.cn/gzhxiao/][肖国镇]]: 中国密码学之父
+[[https://loccs.sjtu.edu.cn/main/publication/][LoCCS]]: 上海交通大学密码与计算机安全实验室
 
-** Hosts
+[[https://www.changhai.org/articles/science/mathematics/riemann_hypothesis/][卢昌海]]: Riemann 猜想漫谈
+[[https://scottaaronson.com/][Scott Aaronson]]: 量子大佬
+
+* Hosts
 #+begin_src c
 92.247.181.40     www.inoreader.com
 199.232.28.133    raw.githubusercontent.com
