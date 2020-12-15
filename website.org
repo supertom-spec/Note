@@ -32,6 +32,7 @@ https://projecteuler.net/about
 https://brilliant.org/courses/#recent
 
 * Gate-of-gates
+http://www.gkbang.cn/link/
 https://mathurls.com
 https://physurls.com/
 https://sciurls.com/
@@ -61,6 +62,7 @@ https://finurls.com/
 [[https://sel4.systems/][seL4 安全验证的微内核]]
 [[https://nasbench.medium.com/a-deep-dive-into-windows-scheduled-tasks-and-the-processes-running-them-218d1eed4cce][Windows 计划任务的研究]]
 [[https://www.hex-rays.com/wp-content/static/tutorials/xnu_debugger_primer/xnu_debugger_primer.pdf][利用 IDA Pro 调试 XNU 内核的官方教程]]
+[[https://github.com/taviso/ctftool][windows ctf 漏洞利用工具]]
 
 * Project
 ** 通用工具
@@ -68,6 +70,8 @@ https://finurls.com/
 [[https://github.com/mathics/Mathics][Mathics]]: free mathematics
 [[http://codef00.com/projects][codef00]]: edb, evanO
 [[https://mrxn.net/][mrxn]]: 帮忙收集了很多工具
+[[https://github.com/the1812/Bilibili-Evolved][bilibili-evolved]]: bilibili 增强插件
+[[https://github.com/DEAP/deap][deap]]: 遗传算法库
 
 ** 硬件开发
 [[https://github.com/aggresss/RFDemo][路由器就是开发板]]
@@ -84,23 +88,29 @@ https://finurls.com/
 [[https://blog.didierstevens.com/2020/11/18/decrypting-with-translate-py/][分析加密文件的工具脚本]]
 [[https://github.com/AllsafeCyberSecurity/awesome-ghidra][awesome-ghidra: Ghidra 相关工具收集]]
 [[https://githomelab.ru/][pkyd: windbg 扩展]]
+[[https://github.com/jfoote/exploitable][exploitable: GDB 调试插件]]
 
 ** 安全开发
 [[https://mp.weixin.qq.com/s/LmxdXRjMCOIisQzCISBoGw][Python 源码混淆与加密]]
 [[https://github.com/vxunderground/MalwareSourceCode][恶意代码源码]]
 [[https://paper.seebug.org/1413/][如何编写shellcode loader]]
+[[https://github.com/lockedbyte/cryptovenom][cryptovenom: 密码学瑞士军刀]]
+[[https://github.com/changeofpace/MouHidInputHook][MouHidInputHook: 假冒鼠标输入]]
 
 ** 信息收集
 [[https://github.com/thewhiteh4t/FinalRecon][thewhiteh4t/FinalRecon: python编写的信息收集工具]]
 [[https://github.com/spaceraccoon/manuka][Manuka：一个开源情报沙箱]]
 [[https://github.com/tobor88/PowerShell-Red-Team][收集 windows 信息的 powershell 工具]]
+[[https://github.com/ShiHuang-ESec/EHole][EHole: C段指纹探测工具]]
 
 ** 模糊测试
-[[https://blog.talosintelligence.com/2020/08/barbervisor.html][利用 VT-x 虚拟化快照的 fuzz]]
+[[https://github.com/secfigo/Awesome-Fuzzing][fuzz 参考资料]]
+[[https://blog.talosintelligence.com/2020/08/barbervisor.html][利用 VT-x 虚拟化快照 fuzz]]: [[https://github.com/Cisco-Talos/Barbervisor][代码]]
 [[https://blog.doyensec.com//2020/11/19/inql-scanner-v3.html][InQL Scanner: 安全测试工具]]
 [[https://www.kitploit.com/2020/11/uafuzz-binary-level-directed-fuzzing.html][UAFuzz: 二进制级定向 fuzz UAF 漏洞的工具]]
 [[https://www.darknet.org.uk/2020/10/fuzzilli-javascript-engine-fuzzing-library][Fuzzilli：JavaScript Engine 模糊测试库]]
 [[https://github.com/fate0/prvd][prvd: php fuzz 工具]]
+[[https://github.com/amcai/myscan][myscan: Web 被动扫描平台]]
 
 ** 漏洞挖掘
 *** SAT
@@ -133,26 +143,26 @@ https://finurls.com/
 ** 安全对抗
 [[https://www.kitploit.com/2020/11/wsb-detect-tool-to-detect-if-you-are.html][Wsb-Detect: 检测是否在 Windows 沙箱中]]
 [[https://securityonline.info/pezor-powerful-tool-for-bypassing-av-solutions/][PEzor: 绕过杀软检测的 PE 文件加壳工具]]
+[[https://github.com/Professor-plum/Reflective-Driver-Loader][Reflective-Driver-Loader: 绕过 windows 驱动签名]]
 
 ** 测试工具
 [[https://www.nirsoft.net/utils/dpapi_data_decryptor.html][nirsoft]]
 [[https://github.com/moonD4rk/HackBrowserData][hack-browser-data: 用于导出浏览器口令等数据]]
 
 * People
-张银奎:       http://advdbg.org/default.aspx
-鸟哥:         http://linux.vbird.org/
-Ryan Neill (ElfMaster): https://www.bitlackeys.org/
 [[http://www.cs.umd.edu/~mwh/][Michael Hicks]]: 马里兰大学 PL 教授
 [[https://ruoyuwang.me/][Ruoyu Wang]]: angr 核心开发者，Shellphish 战队核心成员
 [[https://syssec.mistakenot.net/][Dennis Andriesse]]: Binary Ninja 中二进制分析算法贡献者
 [[https://gruss.cc/][Daniel Gruss]]: Graz 系统安全方向助理教授，组员发现了 *Meltdown* 漏洞
 [[https://gts3.org/][Gergia Tech SSLab]]: 多个开源项目
-
 [[https://www.cs.princeton.edu/~appel/][Andrew Appel]]: Princeton, Verified Software Toolchain, CertiCoq, etc.
 
 [[https://catonmat.net/][CATonMAT]]: Linux player
 [[https://rushter.com/blog/][Artem Golubin]]: Python Hacker
 [[https://www.geoffchappell.com][Geoff Chappel]]: Windows Software Analyst
+[[https://www.bitlackeys.org/][Ryan Neill]]: Known as ElfMaster
+[[http://advdbg.org/default.aspx][张银奎]]: 软件调试
+[[http://linux.vbird.org/][鸟哥]]: Linux 私房菜
 
 [[https://www.cs.toronto.edu/~hinton/][Geoffrey Hinton]]: 深度学习之父
 [[https://www.scaruffi.com/][Piero Scaruffi]]: 硅谷人工智能大炮
@@ -164,7 +174,6 @@ Ryan Neill (ElfMaster): https://www.bitlackeys.org/
 [[https://crypto.stanford.edu/craig/][Craig Gentry]]: 同态加密大佬
 [[https://web.xidian.edu.cn/gzhxiao/][肖国镇]]: 中国密码学之父
 [[https://loccs.sjtu.edu.cn/main/publication/][LoCCS]]: 上海交通大学密码与计算机安全实验室
-
 [[https://www.changhai.org/articles/science/mathematics/riemann_hypothesis/][卢昌海]]: Riemann 猜想漫谈
 [[https://scottaaronson.com/][Scott Aaronson]]: 量子大佬
 

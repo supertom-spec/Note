@@ -1,4 +1,6 @@
 * 工具篇
+** 发行版
+https://trisquel.info/
 ** 安装软件
 *** apt
 **** 修改更新源
@@ -116,9 +118,53 @@ Icon=/home/username/software/path/xxx.exe.png
 /etc/gnome/defaults.list                    # 全局
 ~/.local/share/applications/mimeinfo.cache  # 个人
 #+end_src
+
+*** php
+**** php 降级
+#+begin_src shell
+sudo add-apt-repository ppa:ondrej/php
+sudo apt-get update
+
+sudo apt-get install php7.3
+sudo apt-get install php7.3-cli php7.3-common php7.3-json \
+     php7.3-opcache php7.3-mysql php7.3-mbstring  php7.3-zip \
+     php7.3-fpm php7.3-intl php7.3-simplexml php7.3-dev
+
+sudo a2dismod php7.4
+sudo a2enmod php7.3
+sudo service apache2 restart
+
+sudo update-alternatives --set php /usr/bin/php7.3
+sudo update-alternatives --set phar /usr/bin/phar7.3
+sudo update-alternatives --set phar.phar /usr/bin/phar.phar7.3
+sudo update-alternatives --set phpize /usr/bin/phpize7.3
+sudo update-alternatives --set php-config /usr/bin/php-config7.3
+#+end_src
+
 ** 文本处理
 *** sed
 *** awk
+*** pdf
+[[http://xournal.sourceforge.net/][Xournal]]
+
+**** convert jpg to pdf
+
+Make PDF
+  =img2pdf *.jp* --output combined.pdf=
+OCR the output PDF
+  =ocrmypdf combined.pdf combined_ocr.pdf=
+
+This command is to make a pdf file out of every jpg image without
+loss of either resolution or quality:
+  =ls -1 ./*jpg | xargs -L1 -I {} img2pdf {} -o {}.pdf=
+This command will concatenate the pdfpages into one document:
+  =pdftk *.pdf cat output combined.pdf=
+And finally, I add an OCRed text layer that doesn't change the quality
+of the scan in the pdfs so that they can be searchable:
+  =pypdfocr combined.pdf=
+An alternative to using =pypdfocr=:
+  =ocrmypdf combined.pdf combined_ocr.pdf=
+
 ** 编译工具
 *** make
 *** git
