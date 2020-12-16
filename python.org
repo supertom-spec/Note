@@ -286,65 +286,6 @@ def unpack_bytes(f, l):
     fmt = str(l) + 'B'
     return ''.join(map(lambda x: hex(x)[2:].zfill(2), unpack(fmt, f.read(l))))
 #+end_src
-** 例程
-*** 尾递归
-用 selenium 时遇到网页回退会刷新页面中元素的 guid 导致无法递归，采用尾递归。模型如下：
-#+begin_src python :results output
-  lll = {
-      'a': [1, 2, 3],
-      'b': {'ba': [4, 5], 'bb': [6, 7]},
-      'c': [8],
-      }
-
-  def get_next_dir(l, finished):
-      if isinstance(l, list):
-          return None
-      for item in l.keys():
-          if item in finished:
-              pass
-          else:
-              return item
-      return None
-
-  def down_files(l, finished=None):
-      if finished is None:
-          finished = []
-
-      if l is None:
-          return
-
-      if isinstance(l, list):
-          print("download {}".format(l))
-
-      next_dir = get_next_dir(l, finished)
-      while next_dir:
-          print("cd {}".format(next_dir))
-          down_files(l[next_dir])
-          finished.append(next_dir)
-          print("finished: {}".format(finished))
-          next_dir = get_next_dir(l, finished)
-
-  down_files(lll)
-#+end_src
-
-#+RESULTS:
-#+begin_example
-cd a
-download [1, 2, 3]
-finished: ['a']
-cd b
-cd ba
-download [4, 5]
-finished: ['ba']
-cd bb
-download [6, 7]
-finished: ['ba', 'bb']
-finished: ['a', 'b']
-cd c
-download [8]
-finished: ['a', 'b', 'c']
-#+end_example
-
 * 设计模式
 ** 全局配置类 options
    #+begin_src python :results output
@@ -460,8 +401,66 @@ while 1:
 conn.close()
 #+end_src
 
-** bs4
 ** selenium
+*** 例程
+**** 尾递归
+用 selenium 时遇到网页回退会刷新页面中元素的 guid 导致无法递归，采用尾递归。模型如下：
+#+begin_src python :results output
+  lll = {
+      'a': [1, 2, 3],
+      'b': {'ba': [4, 5], 'bb': [6, 7]},
+      'c': [8],
+      }
+
+  def get_next_dir(l, finished):
+      if isinstance(l, list):
+          return None
+      for item in l.keys():
+          if item in finished:
+              pass
+          else:
+              return item
+      return None
+
+  def down_files(l, finished=None):
+      if finished is None:
+          finished = []
+
+      if l is None:
+          return
+
+      if isinstance(l, list):
+          print("download {}".format(l))
+
+      next_dir = get_next_dir(l, finished)
+      while next_dir:
+          print("cd {}".format(next_dir))
+          down_files(l[next_dir])
+          finished.append(next_dir)
+          print("finished: {}".format(finished))
+          next_dir = get_next_dir(l, finished)
+
+  down_files(lll)
+#+end_src
+
+#+RESULTS:
+#+begin_example
+cd a
+download [1, 2, 3]
+finished: ['a']
+cd b
+cd ba
+download [4, 5]
+finished: ['ba']
+cd bb
+download [6, 7]
+finished: ['ba', 'bb']
+finished: ['a', 'b']
+cd c
+download [8]
+finished: ['a', 'b', 'c']
+#+end_example
+
 https://zhuanlan.zhihu.com/p/45043575
 *** 元素定位
 #+begin_src python

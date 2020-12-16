@@ -46,27 +46,7 @@ add rsp,40
     WriteString ENDP
 ```
 
-** 键位设置
-
-将 CapsLock 设置为 Ctrl
-
-```install
-Windows Registry Editor Version 5.00
-[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Keyboard Layout]
-"Scancode Map"=hex:00,00,00,00,00,00,00,00,02,00,00,00,1D,00,3A,00,00,00,00,00
-```
-
-```uninstall
-Windows Registry Editor Version 5.00
-[HKEY_LOCAL_MACHINE\SYSTEM\ControlSet001\Control\Keyboard Layout]
-"Scancode Map"=-
-```
-
-** WinDbg
-- [[https://blog.csdn.net/counsellor/article/details/80816583][windbg 独立安装包]]
-- [[https://githomelab.ru/pykd/windbg-pack][windbg pykd 插件]]
-- [[https://blog.csdn.net/jinzhuojun/article/details/7226443][Debugging API]]
 
 ** windows hook
+[[https://blog.csdn.net/jinzhuojun/article/details/7226443][Debugging API]]
 [[https://winternl.com/memfuck/][MemFuck: 绕过用户模式 hook 的工具]]
-
