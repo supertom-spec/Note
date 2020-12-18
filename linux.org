@@ -156,6 +156,31 @@ int main(int argc, char *argv[]) {
 #+end_src
 
 ref: [[https://www.ibm.com/developerworks/cn/linux/l-inotifynew/index.html][ibm devloper]]
+
+** 其他系统监控
+https://github.com/microsoft/ProcMon-for-Linux
+
+dtrace4linux allows you to trace some interesting tidbits of the kernel.
+
+https://github.com/alexandernst/monks
+http://alexandernst.github.io/monks/
+
+www.sysdig.org/wiki/sysdig-examples/
+sysdig -A -c echo_fds
+
+iotop -o -b -P
+strace linux
+truss on Solaris, ktrace or dtrace under BSD
+
+kqueue under BSD, and FAM (originally from SGI but now available as an API on many systems).http://en.wikipedia.org/wiki/File_Alteration_Monitor
+
+auditctl
+http://people.redhat.com/sgrubb/audit/
+tracking file accesses: https://unix.stackexchange.com/questions/12390/tracking-huge-buffer-usage-under-linux/12398#12398
+tracking process executiong: https://unix.stackexchange.com/questions/13017/log-every-invocation-of-every-suid-program/13024#13024
+
+To watch all the system calls under Linux, you can use the audit subsystem. It's relatively recent and there's not much literature on the topic; search for auditctl or read the auditctl man page. There are a couple of examples on this site: tracking file accesses, tracking process execution.
+
 ** slab内存越界检查
 - http://news.eeworld.com.cn/mp/ymc/a52757.jspx
 ** freeBSD
