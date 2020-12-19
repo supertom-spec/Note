@@ -256,36 +256,6 @@ signal(SIGPIPE, SIG_IGN)
 # 恢复默认信号行为的方法
 # signal(SIGPIPE, SIG_DFL)
 #+end_src
-** 常用自定义函数
-*** 调试函数
-**** 打印十六进制
-    #+begin_src python :results output
-      import string
-      def print_hex(bytes):
-          l = [int(i) for i in bytes]
-          for i in range(0, len(l), 16):
-              rest = len(l) - i if len(l) - i < 16 else 16
-              for j in range(rest):
-                  print("{:02X}".format(l[i+j]), end=' ')
-              print("   " * (16-rest) + "\t", end='')
-              for j in range(rest):
-                  print(chr(l[i+j]) if chr(l[i+j]) in string.printable[:-5] else '.', end='')
-              print("")
-
-      s = b"test\x00\x01\x02\x03"
-      print_hex(s)
-    #+end_src
-
-    #+RESULTS:
-    : 74 65 73 74 00 01 02 03                         	test....
-
-**** unpack bytes
-#+begin_src python :results output
-from struct import *
-def unpack_bytes(f, l):
-    fmt = str(l) + 'B'
-    return ''.join(map(lambda x: hex(x)[2:].zfill(2), unpack(fmt, f.read(l))))
-#+end_src
 * 设计模式
 ** 全局配置类 options
    #+begin_src python :results output
