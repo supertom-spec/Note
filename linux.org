@@ -185,6 +185,14 @@ To watch all the system calls under Linux, you can use the audit subsystem. It's
 - http://news.eeworld.com.cn/mp/ymc/a52757.jspx
 ** freeBSD
 https://study.holmesian.org/FreeBSD/cvsup.html
+** eBPF
+自内核 3.15 版本开始，加入 eBPF
+https://lwn.net/Articles/740157/
+https://zhuanlan.zhihu.com/p/182344856
+https://www.cnblogs.com/charlieroro/p/13403672.html
+CVE-2020-8835
+CVE-2020-27194
+
 * 综合利用
 ** kernel rootkit
 rootkit 的分类:
